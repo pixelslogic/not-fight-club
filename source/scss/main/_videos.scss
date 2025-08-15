@@ -1,0 +1,14 @@
+.main__videos {
+  width: 400px;            /* ширина колонки */
+  height: 660px;           /* 3 видео по 220px + 2*20px gap */
+  overflow: hidden;         /* обрезаем лишнее */
+}
+
+.main__videos-wrapper {
+  height: 100%;             /* Swiper растягивается на всю высоту */
+}
+
+.videos__slide iframe {
+  width: 100%;
+  height: 200px;            /* фиксированная высота каждого видео */
+}

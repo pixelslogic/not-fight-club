@@ -1,0 +1,23 @@
+{
+  "name": "not-fight-club",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "sass": "^1.90.0",
+    "vite": "^7.1.2",
+    "vite-plugin-static-copy": "^3.1.1"
+  },
+  "dependencies": {
+    "swiper": "^11.2.10"
+  }
+}

@@ -1,0 +1,25 @@
+@use "../global/variables" as v;
+
+.site-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 760px;
+  gap: 32px;
+  max-height: 50px;
+
+  li:nth-child(2) {
+    margin-right: 64px;
+  }
+
+  li:first-child {
+    margin-right: 64px;
+  }
+}
+
+.site-list__link {
+  text-decoration: none;
+  color: v.$white;
+}
