@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div class="container" id="main">
+  <div class="container">
     <header class="header">
       <nav class="header__nav">
         <div class="header__logo-wrapper" href="#">
@@ -61,43 +61,44 @@
       </nav>
     </header>
     <main class="main">
-      <div class="main__text">
-        <div class="main__wrapper">
-          <h1>
-            <img class="main__logo" src="./assets/img/title.png" alt="squid game logo">
-          </h1>
-          <h2 class="main__subtitle">Will You Survive the Game?</h2>
-          <p>Discover the games, learn the rules, and join the players.</p>
-          <a class="main__button" href="#">Start Playing</a>
-        </div>
-        <div class="main__carousel carousel">
-          <div class="carousel__spin">
-            <img src="assets/img/carousel-1.jpg" alt="player 1 photo">
-            <img src="assets/img/carousel-2.jpg" alt="player 2 photo">
-            <img src="assets/img/carousel-3.jpg" alt="player 3 photo">
-            <img src="assets/img/carousel-4.jpg" alt="player 4 photo">
-            <img src="assets/img/carousel-5.jpg" alt="player 5 photo">
-            <img src="assets/img/carousel-6.jpg" alt="player 6 photo">
-            <img src="assets/img/carousel-7.jpg" alt="player 7 photo">
+      <div class="main__content">
+        <div class="main__text">
+          <div class="main__wrapper">
+            <h1>
+              <img class="main__logo" src="./assets/img/title.png" alt="squid game logo">
+            </h1>
+            <h2 class="main__subtitle">Will You Survive the Game?</h2>
+            <p>Discover the games, learn the rules, and join the players.</p>
+            <a class="main__button" href="#">Start Playing</a>
           </div>
-          <div class="main__sound">
-            <div class="main__button-wrapper">
-              <button class="main__sound-btn" id="soundBtn">
-                <img class="main__sound-icon" src="./assets/icon/sound-pause.svg" alt="sound icon">
-              </button>
-              <span class="main__sound-text">Mingle Game Song<br>“Round and Round”</span>
+          <div class="main__carousel carousel">
+            <div class="carousel__spin">
+              <img src="assets/img/carousel-1.jpg" alt="player 1 photo">
+              <img src="assets/img/carousel-2.jpg" alt="player 2 photo">
+              <img src="assets/img/carousel-3.jpg" alt="player 3 photo">
+              <img src="assets/img/carousel-4.jpg" alt="player 4 photo">
+              <img src="assets/img/carousel-5.jpg" alt="player 5 photo">
+              <img src="assets/img/carousel-6.jpg" alt="player 6 photo">
+              <img src="assets/img/carousel-7.jpg" alt="player 7 photo">
             </div>
-            <audio id="main-music" autoplay loop>
-              <source src="./assets/music/Round and Round (Mingle Song).mp3" type="audio/mpeg">
-            </audio>
+            <div class="main__sound">
+              <div class="main__button-wrapper">
+                <button class="main__sound-btn" id="soundBtn">
+                  <img class="main__sound-icon" src="./assets/icon/sound-pause.svg" alt="sound icon">
+                </button>
+                <span class="main__sound-text">Mingle Game Song<br>“Round and Round”</span>
+              </div>
+              <audio id="main-music" autoplay loop>
+                <source src="./assets/music/Round and Round (Mingle Song).mp3" type="audio/mpeg">
+              </audio>
+            </div>
+            <div class="carousel__ground"></div>
           </div>
-        <div class="carousel__ground"></div>
+        </div>
+        <div class="main__img">
+          <img class="main__img-bg" src="./assets/img/character.png" alt="squid game guardian">
+        </div>
       </div>
-      </div>
-      <div class="main__img">
-        <img class="main__img-bg" src="./assets/img/character.png" alt="squid game guardian">
-      </div>
-      
       <div class="main__videos-games">
         <div class="main__videos">
           <div class="main__videos-wrapper swiper videos">
@@ -133,30 +134,13 @@
                         allowfullscreen></iframe>
               </div>
             </div>
-
-      <!-- навигация -->
-          <div class="swiper-button-next videos__button-next"></div>
-          <div class="swiper-button-prev videos__button-prev"></div>
+            <!-- навигация -->
+            <div class="swiper-button-next videos__button-next"></div>
+            <div class="swiper-button-prev videos__button-prev"></div>
+          </div>
         </div>
       </div>
     </main>
-    
-    <!-- <footer class="footer">
-      <div class="footer__wrapper">
-        <span class="footer__text">pixelslogic</span>
-        <ul class="footer__list">
-          <li>
-            <span class="footer__link" href="#">Player Roles</span>
-          </li>
-          <li>
-            <sp class="footer__link" href="#">Levels</sp>
-          </li>
-          <li>
-            <span class="footer__link" href="#">Rewards</span>
-          </li>
-        </ul>
-      </div>
-    </footer> -->
   </div>
 </body>
 </html>
