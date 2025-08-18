@@ -1,0 +1,635 @@
+@use "../global/variables" as v;
+
+.squid-game-wrapper {
+  background: v.$squid-teal;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(247, 66, 106, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 210, 63, 0.1) 0%, transparent 50%);
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 200px;
+    height: 200px;
+    // background: v.$squid-pink;
+    // clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    opacity: 0.08;
+    animation: float 6s ease-in-out infinite;
+    background-image: url("../assets/img/sharp-1.png");
+    background-repeat: no-repeat;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 30%;
+    right: 10%;
+    width: 200px;
+    height: 240px;
+    // background: v.$squid-yellow;
+    border-radius: 50%;
+    opacity: 0.08;
+    background-image: url("../assets/img/sharp-5.png");
+    animation: float 4s ease-in-out infinite reverse;
+    background-repeat: no-repeat;
+  }
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 4%;
+    left: 25%;
+    width: 200px;
+    height: 240px;
+    // background: v.$squid-teal;
+    opacity: 0.08;
+    background-image: url("../assets/img/sharp-3.png");
+    background-repeat: no-repeat;
+    animation: float 8s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 25%;
+    right: 25%;
+    width: 70px;
+    height: 70px;
+    background: v.$squid-red;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    opacity: 0.08;
+    animation: float 5s ease-in-out infinite reverse;
+    z-index: 0;
+  }
+}
+
+.squid-card {
+  width: 120px;
+  height: 80px;
+  position: relative;
+  margin: 0 auto 30px;
+  cursor: pointer;
+  perspective: 1000px;
+
+  &__front,
+  &__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.8s ease;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__front {
+    background: v.$squid-pink;
+    border: 3px solid v.$squid-black;
+    transform: rotateY(0deg);
+  }
+
+  &__back {
+    background: v.$squid-white;
+    border: 3px solid v.$squid-black;
+    transform: rotateY(180deg);
+  }
+
+  &:hover {
+    .squid-card__front {
+      transform: rotateY(-180deg);
+    }
+    .squid-card__back {
+      transform: rotateY(0deg);
+    }
+  }
+
+  &__shapes {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__triangle,
+  &__circle,
+  &__square {
+    width: 16px;
+    height: 16px;
+    background: v.$squid-white;
+  }
+
+  &__triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  &__circle {
+    border-radius: 50%;
+  }
+
+  &__number {
+    font-size: 24px;
+    font-weight: 900;
+    color: v.$squid-black;
+  }
+}
+
+.auth {
+  background: v.$squid-white;
+  border-radius: 0;
+  padding: 60px 40px;
+  box-shadow: 
+      0 0 0 8px v.$squid-pink,
+      0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: linear-gradient(45deg, v.$squid-pink, v.$squid-teal, v.$squid-yellow);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    background: v.$squid-yellow;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  &--hidden {
+    display: none;
+  }
+
+  &__title {
+    color: v.$squid-black;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, v.$squid-pink, v.$squid-yellow);
+    }
+  }
+
+  &__subtitle {
+    color: v.$squid-teal;
+    font-size: 16px;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+
+  &__number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: v.$squid-black;
+    color: v.$squid-white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.input {
+  position: relative;
+
+  &__field {
+    width: 100%;
+    padding: 20px;
+    border: 4px solid v.$squid-teal;
+    border-radius: 0;
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: v.$squid-white;
+    color: v.$squid-black;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      border-color: v.$squid-pink;
+      box-shadow: inset 0 0 0 2px v.$squid-yellow;
+      transform: scale(1.02);
+    }
+
+    &--error {
+      border-color: v.$squid-red;
+      animation: shake 0.6s ease-in-out;
+      background: rgba(255, 46, 99, 0.1);
+    }
+
+    &:focus + .input__label,
+    &:not(:placeholder-shown) + .input__label {
+      top: 0;
+      font-size: 14px;
+      color: v.$squid-pink;
+      font-weight: 700;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: v.$squid-teal;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    background: v.$squid-white;
+    padding: 0 10px;
+  }
+
+  &__error {
+    color: v.$squid-red;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 8px;
+    display: none;
+    text-transform: uppercase;
+
+    &--visible {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+  }
+}
+
+.button {
+  padding: 20px 40px;
+  background: v.$squid-pink;
+  color: v.$squid-white;
+  border: 4px solid v.$squid-black;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, v.$squid-yellow, transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    background: v.$squid-dark-pink;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(247, 66, 106, 0.4);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    background: #666;
+  }
+}
+
+.character-selection {
+  background: v.$squid-white;
+  border-radius: 0;
+  padding: 50px 40px;
+  box-shadow: 
+      0 0 0 8px v.$squid-teal,
+      0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  display: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: linear-gradient(45deg, v.$squid-teal, v.$squid-pink, v.$squid-yellow);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 25px;
+    height: 25px;
+    background: v.$squid-pink;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  &--visible {
+    display: block;
+  }
+
+  &__title {
+    color: v.$squid-black;
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  &__greeting {
+    color: v.$squid-pink;
+    font-size: 20px;
+    margin-bottom: 40px;
+    font-weight: 700;
+    padding: 15px;
+    border: 3px solid v.$squid-teal;
+    background: rgba(8, 126, 139, 0.1);
+  }
+}
+
+.characters {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.character-card {
+  background: v.$squid-white;
+  border: 4px solid v.$squid-black;
+  padding: 30px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, v.$squid-pink, v.$squid-teal);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: v.$squid-pink;
+
+    &::before {
+      opacity: 0.1;
+    }
+  }
+
+  &--selected {
+    border-color: v.$squid-yellow;
+    background: v.$squid-pink;
+    color: v.$squid-white;
+    transform: scale(1.05);
+
+    &::before {
+      opacity: 0;
+    }
+
+    .character-card__number {
+      background: v.$squid-yellow;
+      color: v.$squid-black;
+    }
+  }
+
+  &__avatar {
+    font-size: 50px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__name {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__class {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__number {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: v.$squid-black;
+    color: v.$squid-white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.9) translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+.auth, .character-selection {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.glitch {
+  animation: glitch 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .auth, .character-selection {
+    padding: 40px 25px;
+    margin: 15px;
+  }
+  
+  .auth__title, .character-selection__title {
+    font-size: 24px;
+  }
+  
+  .characters {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .character-card {
+    padding: 25px 15px;
+  }
+  
+  .input__field, .button {
+    font-size: 16px;
+    padding: 18px;
+  }
+    
+  .squid-card {
+    width: 100px;
+    height: 70px;
+
+    &__shapes {
+      gap: 6px;
+    }
+    
+    &__triangle,
+    &__circle,
+    &__square {
+      width: 12px;
+      height: 12px;
+    }
+    
+    &__number {
+      font-size: 20px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth__title {
+    font-size: 20px;
+  }
+  
+  .character-card__avatar {
+    font-size: 40px;
+  }
+  
+  .squid-card {
+    width: 90px;
+    height: 60px;
+    margin-bottom: 20px;
+
+    &__number {
+      font-size: 18px;
+    }
+  }
+}

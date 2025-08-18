@@ -1,13 +1,8 @@
-// main-carousel.js - исправленная версия с проверками
-console.log('Carousel module loaded');
-
-// Проверяем наличие элементов карусели
 function checkCarouselElements() {
     const odrag = document.querySelector('.carousel__spin');
     const ground = document.querySelector('.carousel__ground');
     const soundBtn = document.getElementById('soundBtn');
     const audio = document.getElementById('main-music');
-    
     return {
         odrag,
         ground,
@@ -18,15 +13,10 @@ function checkCarouselElements() {
 }
 
 function initCarousel() {
-    console.log('Trying to initialize carousel...');
-    
     const elements = checkCarouselElements();
-    
     if (!elements.exists) {
-        console.log('Carousel elements not found, skipping carousel initialization');
         return;
     }
-
     try {
         var radius = 240;
         var autoRotate = true;
@@ -37,12 +27,9 @@ function initCarousel() {
         var odrag = elements.odrag;
         var ospin = elements.odrag;
         var aImg = ospin.getElementsByTagName('img');
-        
         if (!aImg || aImg.length === 0) {
-            console.log('No carousel images found');
             return;
         }
-        
         var aEle = [...aImg];
 
         ospin.style.width = imgWidth + "px";
@@ -68,7 +55,7 @@ function initCarousel() {
             ospin.style.animationPlayState = (yes ? 'running' : 'paused');
         }
 
-        var sX, sY, nX, nY, desX = 0, tX = 0;
+        var sX, nX, desX = 0, tX = 0;
 
         if (autoRotate) {
             var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
@@ -89,7 +76,7 @@ function initCarousel() {
                 sX = nX;
             };
 
-            this.onpointerup = function (e) {
+            this.onpointerup = function () {
                 odrag.timer = setInterval(function () {
                     desX *= 0.95;
                     tX += desX * 0.1;
@@ -102,37 +89,14 @@ function initCarousel() {
                 }, 17);
                 this.onpointermove = this.onpointerup = null;
             };
-
             return false;
         };
 
-        // Инициализация с задержкой
         setTimeout(init, 1000);
 
-        // Обработчик звука
-        if (elements.soundBtn && elements.audio) {
-            elements.soundBtn.addEventListener('click', function() {
-                var audio = elements.audio;
-                var icon = this.querySelector('.main__sound-icon');
-                
-                if (audio.paused) {
-                    audio.play();
-                    if (icon) icon.src = './assets/icon/sound-pause.svg';
-                } else {
-                    audio.pause();
-                    if (icon) icon.src = './assets/icon/sound-play.svg';
-                }
-            });
-        }
-
-        console.log('Carousel initialized successfully with', aEle.length, 'images');
-        
-    } catch (error) {
-        console.error('Error initializing carousel:', error);
-    }
+    } catch {}
 }
 
-// Инициализация
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCarousel);
 } else {
