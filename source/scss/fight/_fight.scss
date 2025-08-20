@@ -1,0 +1,1049 @@
+@use "../global/variables" as *;
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+
+  &__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      linear-gradient(45deg, $dark-overlay 25%, transparent 25%),
+      linear-gradient(-45deg, $dark-overlay 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, $dark-overlay 75%),
+      linear-gradient(-45deg, transparent 75%, $dark-overlay 75%),
+      radial-gradient(circle at center, transparent 20%, $black-overlay 100%);
+    background-size: 6px 6px, 6px 6px, 6px 6px, 6px 6px, 100% 100%;
+    animation: pixelShift 8s linear infinite;
+  }
+
+  &__gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(48, 15, 39, 0.95) 0%,
+      rgba(90, 45, 79, 0.8) 30%,
+      rgba(124, 74, 108, 0.6) 60%,
+      rgba(232, 68, 129, 0.3) 100%
+    );
+    mix-blend-mode: multiply;
+  }
+}
+
+.app {
+  padding: 16px 20px 16px 120px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: $pixel;
+}
+
+.main {
+  margin-left: 80px;
+  flex: 1;
+}
+
+.header-fight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: none;
+  box-shadow: $pixel-border-pink;
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.nav-fight {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font-family: $pixel;
+
+  &__item {
+    color: $text-primary;
+    text-decoration: none;
+    font-size: 12px;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    padding: 8px;
+    border: 2px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    &--active {
+      opacity: 1;
+      color: $pink;
+      border: none;
+      background: rgba(232, 68, 129, 0.1);
+      box-shadow: $pixel-border-pink;
+    }
+
+    &:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: $pixel-border-pink;
+    }
+  }
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 3px solid $pink;
+  background: linear-gradient(90deg, $pink 0%, #f066a1 100%);
+  color: $surface-dark;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: $pixel;
+  box-shadow: 
+    0 0 0 1px $black,
+    0 4px 0 #c73669,
+    0 6px 6px rgba(0, 0, 0, 0.6);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 0 0 1px $black,
+      0 6px 0 #c73669,
+      0 8px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  &--secondary {
+    background: linear-gradient(90deg, #333 0%, $aside-gray 100%);
+    color: $text-primary;
+    border-color: $border-color;
+  }
+
+  &--primary {
+    background: linear-gradient(90deg, $pink 0%, #f066a1 100%);
+  }
+
+  &:focus {
+    outline: 2px solid $pink;
+    outline-offset: 2px;
+  }
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  background: 
+    linear-gradient(45deg, #333 25%, transparent 25%),
+    linear-gradient(-45deg, #333 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #333 75%),
+    linear-gradient(-45deg, transparent 75%, #333 75%),
+    $aside-gray;
+  background-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, 8px 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: $pixel-border-pink;
+
+  &:hover {
+    border-color: $text-primary;
+    transform: scale(1.1);
+  }
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100vh;
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-right: 3px solid $pink;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+  box-shadow: 
+    0 0 0 1px $black,
+    inset -1px 0 0 $pink,
+    4px 0 32px rgba(232, 68, 129, 0.4);
+
+  &__icon {
+    width: 50px;
+    height: 50px;
+    background: $aside-gray;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: $white;
+    font-size: 12px;
+    box-shadow: $pixel-border-gray;
+
+    &--active {
+      border: none;
+      box-shadow: $pixel-border-pink;
+      color: $surface-dark;
+      background: $pink;
+    }
+
+    &:hover {
+      border-color: $pink;
+      transform: scale(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid $pink;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.container-fight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.game-header {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+  inset 4px 4px 0 rgba(232, 68, 129, 0.5),
+  inset -4px -4px 0 rgba(180, 30, 90, 0.15),
+  -4px 0 0 rgba($squid-pink, 0.84), 
+  4px 0 0 rgba($squid-pink, 0.84),
+  0 4px 0 rgba($squid-pink, 0.84),
+  0 -4px 0 rgba($squid-pink, 0.84),
+  8px 4px 0 rgba(180, 30, 90, 0.15),
+  4px 8px 0 rgba(180, 30, 90, 0.15);
+  padding: 20px;
+  text-align: center;
+
+  &__title {
+    color: $pink;
+    font-size: 24px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 
+      2px 2px 0 $black,
+      0 0 12px rgba(232, 68, 129, 0.8);
+    animation: titleGlow 3s ease-in-out infinite;
+  }
+
+  &__round-info {
+    color: $text-secondary;
+    font-size: 10px;
+    margin-bottom: 20px;
+    display: block;
+    letter-spacing: 1px;
+  }
+}
+
+.opponent-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.opponent-card {
+  background: rgba(42, 42, 42, 0.95);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 3px solid $border-color;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 
+    0 0 0 1px $black,
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 4px 0 #333,
+    0 8px 16px rgba(0, 0, 0, 0.6);
+
+  &:hover {
+    border-color: $enemy-color;
+    transform: translateY(-4px);
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 1px $enemy-color,
+      0 8px 0 $enemy-dark,
+      0 12px 20px rgba(0, 0, 0, 0.8),
+      0 0 16px rgba(255, 107, 107, 0.4);
+  }
+
+  &--selected {
+    border-color: $pink;
+    background: rgba(232, 68, 129, 0.15);
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 2px $pink,
+      0 4px 0 #c73669,
+      0 8px 16px rgba(0, 0, 0, 0.8),
+      0 0 20px rgba(232, 68, 129, 0.6);
+  }
+
+  &:focus {
+    outline: 2px solid $pink;
+    outline-offset: 2px;
+  }
+
+  &__name {
+    color: $text-primary;
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__stats {
+    color: $text-secondary;
+    font-size: 8px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+}
+
+.battle-arena {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.fighter-section {
+  display: flex;
+  flex-direction: column;
+
+  &--player &__shadow {
+    border-color: $pink;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 1px $pink,
+      0 4px 0 #c73669,
+      0 8px 24px rgba(232, 68, 129, 0.4);
+  }
+
+  &--enemy &__shadow {
+    border-color: $enemy-color;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 1px $enemy-color,
+      0 4px 0 $enemy-dark,
+      0 8px 24px rgba(255, 107, 107, 0.4);
+  }
+
+  &--enemy &__img {
+    border-color: $enemy-color;
+  }
+
+  &--damaged {
+    animation: damageShake 0.6s ease-in-out;
+  }
+
+  &__shadow {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 3px solid $border-color;
+    padding: 20px;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 4px 0 #333,
+      0 8px 24px rgba(0, 0, 0, 0.6);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__img {
+    width: 60px;
+    height: 60px;
+    border: 2px solid $pink;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    filter: brightness(0.8) contrast(1.2);
+  }
+
+  &__name {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-align: center;
+
+    &--player {
+      color: $pink;
+    }
+
+    &--enemy {
+      color: $enemy-color;
+    }
+  }
+}
+
+.health-bar {
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+
+  &__fill {
+    height: 20px;
+    background: linear-gradient(90deg, $success-color, $pink);
+    border: 2px solid $pink;
+    transition: width 0.8s ease;
+    position: relative;
+    overflow: hidden;
+
+    &--enemy {
+      background: linear-gradient(90deg, $enemy-color, #ff5252);
+      border-color: $enemy-color;
+    }
+
+    &--critical {
+      background: linear-gradient(90deg, $danger-color, $enemy-color);
+      animation: healthCritical 1s ease-in-out infinite;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      animation: healthShine 2s ease-in-out infinite;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $text-primary;
+    font-size: 8px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    letter-spacing: 1px;
+  }
+}
+
+.body-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--enemy .zone {
+    cursor: default;
+    opacity: 0.8;
+  }
+}
+
+.zone {
+  padding: 12px 16px;
+  border: 2px solid $border-color;
+  background: rgba(0, 0, 0, 0.4);
+  color: $text-primary;
+  font-size: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 0 1px $black,
+    inset 0 0 4px rgba(255, 255, 255, 0.05);
+
+  &:hover:not(:disabled) {
+    background: rgba(232, 68, 129, 0.1);
+    border-color: $pink;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 8px rgba(232, 68, 129, 0.2),
+      0 4px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  &--attack-selected {
+    border-color: $attack-color;
+    background: rgba(255, 71, 87, 0.25);
+    color: $white;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 8px rgba(255, 71, 87, 0.4),
+      0 0 12px rgba(255, 71, 87, 0.3);
+    animation: attackPulse 1.5s ease-in-out infinite;
+  }
+
+  &--defense-selected {
+    border-color: $defense-color;
+    background: rgba(46, 213, 115, 0.25);
+    color: $white;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 8px rgba(46, 213, 115, 0.4),
+      0 0 12px rgba(46, 213, 115, 0.3);
+    animation: defensePulse 1.5s ease-in-out infinite;
+  }
+
+  &--attacking {
+    animation: zoneAttack 0.4s ease-in-out;
+  }
+
+  &--defending {
+    animation: zoneDefend 0.4s ease-in-out;
+  }
+
+  &:focus {
+    outline: 2px solid $pink;
+    outline-offset: 2px;
+  }
+
+  &__status {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2px 4px;
+    border-radius: 2px;
+    color: $text-secondary;
+  }
+}
+
+.controls {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 3px solid $warning-color;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-width: 200px;
+  box-shadow: 
+    0 0 0 1px $black,
+    inset 0 0 0 1px $warning-color,
+    0 4px 0 #e67e22,
+    0 8px 24px rgba(253, 203, 110, 0.4);
+
+  &__turn-info {
+    text-align: center;
+    width: 100%;
+  }
+
+  &__turn-phase {
+    color: $warning-color;
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-shadow: 
+      1px 1px 0 $black,
+      0 0 8px rgba(253, 203, 110, 0.6);
+  }
+
+  &__selection-status {
+    color: $text-primary;
+    font-size: 8px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid $border-color;
+  }
+
+  &__instructions {
+    color: $text-secondary;
+    font-size: 7px;
+    text-align: center;
+    line-height: 1.4;
+  }
+}
+
+.battle-logs {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 3px solid $pink;
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: 
+    0 0 0 1px $black,
+    inset 0 0 0 1px $pink,
+    0 4px 0 #c73669,
+    0 8px 24px rgba(232, 68, 129, 0.4);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid $border-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $pink;
+    border: 1px solid $black;
+
+    &:hover {
+      background: #f066a1;
+    }
+  }
+
+  &__title {
+    color: $pink;
+    font-size: 12px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 1px 1px 0 $black;
+  }
+}
+
+.logs {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid $pink;
+  border-radius: 0 4px 4px 0;
+
+  &__turn {
+    color: $pink;
+    font-size: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+
+  &__action {
+    color: $text-primary;
+    font-size: 7px;
+    line-height: 1.6;
+    margin-bottom: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+
+    &--waiting {
+      color: $text-secondary;
+      font-style: italic;
+      justify-content: center;
+    }
+  }
+
+  &__attacker {
+    color: $pink;
+    font-style: italic;
+  }
+
+  &__defender {
+    color: $enemy-color;
+    text-decoration: underline;
+  }
+
+  &__zone {
+    color: $warning-color;
+    font-weight: bold;
+  }
+
+  &__result {
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 6px;
+
+    &--damage {
+      color: $attack-color;
+      background: rgba(255, 71, 87, 0.2);
+    }
+
+    &--blocked {
+      color: $defense-color;
+      background: rgba(46, 213, 115, 0.2);
+    }
+
+    &--critical {
+      color: $warning-color;
+      background: rgba(253, 203, 110, 0.2);
+      animation: criticalFlash 0.5s ease-in-out;
+    }
+  }
+}
+
+.game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  &__content {
+    position: relative;
+    background: rgba(26, 26, 26, 0.98);
+    border: 3px solid $pink;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 
+      0 0 0 1px $black,
+      inset 0 0 0 1px $pink,
+      0 8px 0 #c73669,
+      0 16px 32px rgba(232, 68, 129, 0.4);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    color: $text-primary;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+
+  &__close {
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $text-primary;
+      transform: scale(1.2);
+    }
+  }
+
+  &__body {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &__icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  &__message {
+    color: $text-primary;
+    font-size: 8px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+}
+
+.game-over-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid $border-color;
+
+  &__label {
+    color: $text-secondary;
+    font-size: 7px;
+  }
+
+  &__value {
+    color: $text-primary;
+    font-size: 7px;
+    font-weight: bold;
+  }
+}
+
+.combat-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 100;
+
+  &--damage {
+    color: $attack-color;
+    animation: damagePopup 1s ease-out forwards;
+  }
+
+  &--block {
+    color: $defense-color;
+    animation: blockPopup 1s ease-out forwards;
+  }
+
+  &--critical {
+    color: $warning-color;
+    animation: criticalPopup 1.5s ease-out forwards;
+  }
+}
+
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid $pink;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.pixel-glow {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: 
+      linear-gradient(45deg, transparent 30%, $pink 31%, $pink 33%, transparent 34%),
+      linear-gradient(-45deg, transparent 30%, $pink 31%, $pink 33%, transparent 34%);
+    z-index: -1;
+    animation: pixelPulse 2s ease-in-out infinite;
+  }
+}
+
+.scanlines {
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      transparent 50%, 
+      rgba(232, 68, 129, 0.02) 50%
+    );
+    background-size: 100% 3px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlineMove 0.1s linear infinite;
+  }
+}
+
+.theme-dark {
+  $primary-color: $pink;
+  $enemy-color: $enemy-color;
+}
+
+.theme-light {
+  $primary-color: #b8205e;
+  $enemy-color: #d32f2f;
+  $background-dark: #f5f5f5;
+  $text-primary: $black;
+}
+
+.theme-high-contrast {
+  $primary-color: #ff1493;
+  $enemy-color: #ff0000;
+  $background-dark: $black;
+  $text-primary: $white;
+}
+
+@keyframes pixelShift {
+  0% { background-position: 0 0, 0 0, 2px 2px, 2px 2px, 0 0; }
+  100% { background-position: 6px 6px, 6px 6px, 8px 8px, 8px 8px, 0 0; }
+}
+
+@keyframes titleGlow {
+  0%, 100% { text-shadow: 2px 2px 0 $black, 0 0 12px rgba(232, 68, 129, 0.8); }
+  50% { text-shadow: 2px 2px 0 $black, 0 0 20px rgba(232, 68, 129, 1), 0 0 30px rgba(232, 68, 129, 0.6); }
+}
+
+@keyframes healthShine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes attackPulse {
+  0%, 100% { box-shadow: 0 0 0 1px $black, inset 0 0 8px rgba(255, 71, 87, 0.4), 0 0 12px rgba(255, 71, 87, 0.3); }
+  50% { box-shadow: 0 0 0 1px $black, inset 0 0 12px rgba(255, 71, 87, 0.6), 0 0 20px rgba(255, 71, 87, 0.5); }
+}
+
+@keyframes defensePulse {
+  0%, 100% { box-shadow: 0 0 0 1px $black, inset 0 0 8px rgba(46, 213, 115, 0.4), 0 0 12px rgba(46, 213, 115, 0.3); }
+  50% { box-shadow: 0 0 0 1px $black, inset 0 0 12px rgba(46, 213, 115, 0.6), 0 0 20px rgba(46, 213, 115, 0.5); }
+}
+
+@keyframes criticalFlash {
+  0%, 100% { background: rgba(253, 203, 110, 0.2); }
+  50% { background: rgba(253, 203, 110, 0.6); transform: scale(1.05); }
+}
+
+@keyframes damageShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+  20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+@keyframes zoneAttack {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); border-color: $attack-color; }
+  100% { transform: scale(1); }
+}
+
+@keyframes zoneDefend {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); border-color: $defense-color; }
+  100% { transform: scale(1); }
+}
+
+@keyframes buttonPress {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes healthCritical {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+@keyframes damagePopup {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -70%) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -90%) scale(0.8); }
+}
+
+@keyframes blockPopup {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -80%) scale(0.9); }
+}
+
+@keyframes criticalPopup {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-50%, -60%) scale(1.3) rotate(-5deg); }
+  50% { opacity: 1; transform: translate(-50%, -70%) scale(1.5) rotate(5deg); }
+  75% { opacity: 0.8; transform: translate(-50%, -80%) scale(1.2) rotate(-2deg); }
+  100% { opacity: 0; transform: translate(-50%, -100%) scale(0.8) rotate(0deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pixelPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes scanlineMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 3px; }
+}
+
+.battle-arena {
+  display: none;
+}
+
+.battle-arena--active {
+  display: grid;
+}
+
+.battle-logs {
+  display: none;
+}
+
+.battle-logs--active {
+  display: block;
+}
+
+.button--attack:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: linear-gradient(90deg, $border-color 0%, #888 100%);
+  border-color: $border-color;
+}

@@ -24,3 +24,12 @@
     url("/fonts/Montserrat-Medium.woff") format("woff");
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Retro Gaming";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/fonts/Retro Gaming.woff2") format("woff2"),
+    url("/fonts/Retro Gaming.woff") format("woff");
+  font-display: swap;
+}

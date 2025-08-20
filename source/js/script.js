@@ -3,11 +3,12 @@ import './main/main-music.js';
 import './main/main-carousel.js';
 import './main/main-swiper.js';
 import './auth/auth.js';
-import './auth/auth.js';
 import './player/player-data.js';
 import './selection-hero/select.js';
 import './selection-hero/select-nickname.js';
 import { initSound, playHoverSound, playClickSound, playSelectionSound } from './selection-hero/select-music.js';
+
+export { playHoverSound, playClickSound, playSelectionSound, initSound };
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing sound system...');
@@ -46,5 +47,3 @@ document.addEventListener('DOMContentLoaded', function() {
         
     }
 });
-
-export { playHoverSound, playClickSound, playSelectionSound, initSound };

@@ -1,11 +1,13 @@
-$monserrat: "Monserrat", "Arial", sans-serif;
+//fonts
+$monserrat: "Montserrat", "Arial", sans-serif;
+$pixel: "Retro Gaming", "Arial", sans-serif;
 
-//main
+//colors
 $white: #ffffff;
 $black: #1a1a1a;
-$pink: #e84481;
+$pink: #e84481; 
 
-//form
+// SQUID GAME
 $squid-pink: #F7426A;
 $squid-teal: #087E8B;
 $squid-yellow: #FFD23F;
@@ -15,14 +17,46 @@ $squid-red: #FF2E63;
 $squid-dark-pink: #C73650;
 $squid-green: #06A77D;
 
-//selection-hero
+// audio
 $audio-primary-color: #4ecdc4;
 $audio-secondary-color: #ff6b6b;
 $audio-bg-color: rgba(0, 0, 0, 0.5);
 $audio-border-color: rgba(255, 255, 255, 0.2);
 $audio-hover-bg: rgba(255, 255, 255, 0.1);
 $audio-transition: all 0.3s ease;
+
+//select-hero
 $text-yellow: #eaeeb2;
 $icon-lock: #ff6b6b;
 $icon-lock-secondary: #ee5a24;
 $pink-icons: #ee8cb5;
+
+//fight
+$primary-color: #00d4aa;
+$primary-dark: #006b5b;
+$primary-light: #00b894;
+$background-dark: #0a0a0a;
+$surface-dark: #1a1a1a;
+$surface-light: #2a2a2a;
+$aside-gray: #555;
+$border-color: #666;
+$text-primary: #ffffff;
+$text-secondary: rgba(255, 255, 255, 0.7);
+$shadow-dark: rgba(0, 0, 0, 0.9);
+$pixel-size: 4px;
+$enemy-color: #ff6b6b;
+$enemy-dark: #d63031;
+$success-color: #00b894;
+$warning-color: #fdcb6e;
+$danger-color: #e17055;
+$attack-color: #ff4757;
+$defense-color: #2ed573;
+
+$text-secondary: rgba(255, 255, 255, 0.7);
+$shadow-dark: rgba(0, 0, 0, 0.9);
+$dark-overlay: rgba(10, 10, 10, 0.85);
+$black-overlay: rgba(0, 0, 0, 0.8);
+
+$pixel-border-pink: -4px 0 0 rgba(232, 68, 129, 0.84), 4px 0 0 rgba(232, 68, 129, 0.84), 0 4px 0 rgba(232, 68, 129, 0.84), 0 -4px 0 rgba(232, 68, 129, 0.84);
+$pixel-border-gray: -4px 0 0 rgba(85, 85, 85, 0.84), 4px 0 0 rgba(85, 85, 85, 0.84), 0 4px 0 rgba(85, 85, 85, 0.84), 0 -4px 0 rgba(85, 85, 85, 0.84);
+$pixel-border-enemy: -4px 0 0 rgba(255, 107, 107, 0.84), 4px 0 0 rgba(255, 107, 107, 0.84), 0 4px 0 rgba(255, 107, 107, 0.84), 0 -4px 0 rgba(255, 107, 107, 0.84);
