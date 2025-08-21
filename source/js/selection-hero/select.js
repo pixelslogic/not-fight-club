@@ -183,7 +183,6 @@ class CharacterSelector {
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.3);
         } catch (e) {
-            // Silently fail if audio context not available
         }
     }
 
@@ -215,8 +214,11 @@ class CharacterSelector {
         const characterKey = this.characterOrder[this.currentCharacterNumber];
         const character = characterData[characterKey];
         if (!character || !this.elements.mainCharacterImage) return;
-
         this.generateCharacterDisplay(characterKey);
+        
+        if (window.CharacterDisplay) {
+            window.CharacterDisplay.saveSelected(characterKey);
+        }
 
         if (this.elements.characterContainer) {
             this.elements.characterContainer.setAttribute('data-character', characterKey);

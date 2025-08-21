@@ -4,209 +4,143 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Not a fight game, it's squid game</title>
-  <script src="./js/fight/fight.js"></script>
-  <link rel="stylesheet" href="./css/styles.css">
   <link rel="icon" href="assets/favicon/favicon.ico">
+  <script type="module" crossorigin src="./js/script.js"></script>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div class="background">
-    <video class="background__video" autoplay muted loop>
-      <source src="./assets/video/revolt.webm" type="video/webm">
-    </video>
-    <div class="background__overlay"></div>
-    <div class="background__gradient"></div>
-  </div>
+  <div class="container">
+    <header class="header">
+      <nav class="header__nav">
+        <div class="header__logo-wrapper" href="#">
+          <img class="header__logo" src="./assets/icon/Logo.svg" alt="squid game logo">
+        </div>
 
-  <div class="app">
-    <header class="header-fight">
-      <nav class="nav-fight">
-        <a href="#" class="nav-fight__item">🎯 Browse</a>
-        <a href="#" class="nav-fight__item">👥 Characters</a>
-        <a href="#" class="nav-fight__item nav-fight__item--active">⚔️ Battle</a>
-        <a href="#" class="nav-fight__item">🗺️ Maps</a>
+        <ul class="nav__list site-list">
+          <li>
+            <a class="site-list__link" href="https://www.netflix.com/tudum/articles/squid-game-games-explained#Season1">
+              Rules of the game
+            </a>
+          </li>
+          <li>
+            <a class="site-list__link" href="https://www.netflix.com/es-en/title/81040344" target="_blank">
+              <img class="nav__logo" src="./assets/icon/Netflix-Logo.svg" alt="netflix logo">
+            </a>
+          </li>
+          <li>
+            <a class="site-list__link">
+              LIVE
+            </a>
+          </li>
+          <li>
+            <a class="site-list__link">
+              PLAY
+            </a>
+          </li>
+          <li>
+            <a class="site-list__link">
+              DIE
+            </a>
+          </li>
+        </ul>
+
+        <ul class="nav__list social">
+          <li>
+            <a class="social__link" href="https://www.instagram.com/squidgamenetflix" target="_blank">
+              <span class="visually-hidden">instagram</span>
+              <img class="social__svg" src="./assets/icon/instagram.svg" alt="instagram icon">
+            </a>
+          </li>
+          <li>
+            <a class="social__link" href="https://x.com/squidgame" target="_blank">
+              <span class="visually-hidden">twitter / X link</span>
+              <img class="social__svg" src="./assets/icon/twitter.svg" alt="twitter icon">
+            </a>
+          </li>
+        </ul>
       </nav>
-      <div class="header-fight__actions">
-        <button class="btn" id="settingsBtn">Settings</button>
-        <div class="user-avatar"></div>
-      </div>
     </header>
-
-    <aside class="sidebar">
-      <button class="sidebar__icon" type="button">🏠</button>
-      <button class="sidebar__icon">👥</button>
-      <button class="sidebar__icon sidebar__icon--active">⚔️</button>
-      <button class="sidebar__icon">💬</button>
-      <button class="sidebar__icon">✅</button>
-      <button class="sidebar__icon">❓</button>
-    </aside>
-
     <main class="main">
-      <div class="container-fight">
-        <header class="game-header">
-          <h1 class="game-header__title">REVOLT</h1>
-          <span class="game-header__round-info" id="roundInfo">Round 1 | Choose your opponent</span>
-
-          <div class="opponent-selector" id="opponentSelector">
-            <div class="opponent-card" data-enemy="worker">
-              <div class="opponent-card__name">Worker ⭘</div>
-              <div class="opponent-card__stats">
-                HP: 120 | ATK: 2 zones | DEF: 1 zone<br>
-                Crit: 5% (x1.0)
-              </div>
-            </div>
-                
-            <div class="opponent-card" data-enemy="soldier">
-              <div class="opponent-card__name">Soldier △</div>
-              <div class="opponent-card__stats">
-                HP: 180 | ATK: 1 zone | DEF: 3 zones<br>
-                Crit: 10% (x1.5)
-              </div>
-            </div>
-            
-            <div class="opponent-card" data-enemy="manager">
-              <div class="opponent-card__name">Manager ☐</div>
-              <div class="opponent-card__stats">
-                HP: 100 | ATK: 1 zone | DEF: 2 zones<br>
-                Crit: 20% (x1.8)
-              </div>
-            </div>
+      <div class="main__content">
+        <div class="main__text">
+          <div class="main__wrapper">
+            <h1>
+              <img class="main__logo" src="./assets/img/title.png" alt="squid game logo">
+            </h1>
+            <h2 class="main__subtitle">Will You Survive the Game?</h2>
+            <p>Discover the games, learn the rules, and join the players.</p>
+            <a class="main__button" href="authorization.html">Start Playing</a>
           </div>
-        </header>
-          
-        <main class="battle-arena" id="battleArena" style="display: none;">
-          <div class="fighter-section fighter-section--player">
-            <div class="fighter-section__shadow">
-              <div class="fighter-section__info">
-                <img class="fighter-section__img" src="https://www.thebeekmantowerny.com/wp-content/uploads/2016/12/200x200.png" alt="player icon">
-                <h2 class="fighter-section__name fighter-section__name--player">PLAYER 456</h2>
-                <div class="health-bar">
-                  <div class="health-bar__fill" id="playerHealthBar" style="width: 100%;"></div>
-                  <div class="health-bar__text" id="playerHealthText">200 / 200</div>
-                </div>
-              </div>
-                
-              <div class="body-zones">
-                <button class="zone zone--head" type="button" data-zone="head">
-                  HEAD
-                </button>
-                <button class="zone zone--neck" type="button" data-zone="neck">
-                  NECK
-                </button>
-                <button class="zone zone--body" type="button" data-zone="body">
-                  BODY
-                </button>
-                <button class="zone zone--belly" type="button" data-zone="belly">
-                  BELLY
-                </button>
-                <button class="zone zone--legs" type="button" data-zone="legs">
-                  LEGS
-                </button>
-              </div>
+          <div class="main__carousel carousel">
+            <div class="carousel__spin">
+              <img src="assets/img/carousel-1.jpg" alt="player 1 photo">
+              <img src="assets/img/carousel-2.jpg" alt="player 2 photo">
+              <img src="assets/img/carousel-3.jpg" alt="player 3 photo">
+              <img src="assets/img/carousel-4.jpg" alt="player 4 photo">
+              <img src="assets/img/carousel-5.jpg" alt="player 5 photo">
+              <img src="assets/img/carousel-6.jpg" alt="player 6 photo">
+              <img src="assets/img/carousel-7.jpg" alt="player 7 photo">
             </div>
+            <div class="main__sound">
+              <div class="main__button-wrapper">
+                <button class="main__sound-btn" id="soundBtn">
+                  <img class="main__sound-icon" src="./assets/icon/sound-pause.svg" alt="sound icon">
+                </button>
+                <span class="main__sound-text">Mingle Game Song<br>“Round and Round”</span>
+              </div>
+              <audio id="main-music" autoplay loop>
+                <source src="./assets/music/Round and Round (Mingle Song).mp3" type="audio/mpeg">
+              </audio>
+            </div>
+            <div class="carousel__ground"></div>
           </div>
-              
-          <aside class="controls">
-            <div class="controls__turn-info">
-              <div class="controls__turn-phase" id="turnPhase">TURN 1</div>
-              <div class="controls__selection-status" id="selectionStatus">
-                Attack: 0/1<br>
-                Defense: 0/2
-              </div>
-              <div class="controls__instructions">
-                Choose 1 zone to attack<br>
-                and 2 zones to defend
-              </div>
-            </div>
-              
-            <button class="button button--attack" id="attackButton" disabled>
-              ATTACK!
-            </button>
-          </aside>
-              
-          <section class="fighter-section fighter-section--enemy">
-            <div class="fighter-section__shadow">
-              <div class="fighter-section__info">
-                <img class="fighter-section__img" src="https://www.thebeekmantowerny.com/wp-content/uploads/2016/12/200x200.png" alt="enemy icon">
-                <div class="fighter-section__name fighter-section__name--enemy" id="enemyName">Choose Enemy</div>
-                <div class="health-bar">
-                  <div class="health-bar__fill health-bar__fill--enemy" id="enemyHealthBar" style="width: 100%;"></div>
-                  <div class="health-bar__text" id="enemyHealthText">100 / 100</div>
-                </div>
-              </div>
-              
-              <div class="body-zones body-zones--enemy">
-                <button class="zone zone--head" type="button" disabled>
-                  HEAD
-                  <span class="zone__status" id="enemyHeadStatus"></span>
-                </button>
-                <button class="zone zone--neck" type="button" disabled>
-                  NECK
-                  <span class="zone__status" id="enemyNeckStatus"></span>
-                </button>
-                <button class="zone zone--body" type="button" disabled>
-                  BODY
-                  <span class="zone__status" id="enemyBodyStatus"></span>
-                </button>
-                <button class="zone zone--belly" type="button" disabled>
-                  BELLY
-                  <span class="zone__status" id="enemyBellyStatus"></span>
-                </button>
-                <button class="zone zone--legs" type="button" disabled>
-                  LEGS
-                  <span class="zone__status" id="enemyLegsStatus"></span>
-                </button>
-              </div>
-            </div>
-          </section>
-        </main>
-          
-        <section class="battle-logs" id="battleLogs" style="display: none;">
-          <h2 class="battle-logs__title">BATTLE LOG</h2>
-            
-          <div class="logs" id="battleLogContent">
-            <div class="logs__turn">GAME START</div>
-            <div class="logs__action logs__action--waiting">
-              Choose your opponent to begin the battle...
-            </div>
-          </div>
-        </section>
+        </div>
+        <div class="main__img">
+          <img class="main__img-bg" src="./assets/img/character.png" alt="squid game guardian">
+        </div>
       </div>
-    </main>
-  </div>
-
-  <div class="game-over-modal" id="gameOverModal" style="display: none;">
-    <div class="game-over-modal__backdrop" id="modalBackdrop"></div>
-    <div class="game-over-modal__content">
-      <div class="game-over-modal__header">
-        <h2 class="game-over-modal__title" id="gameOverTitle">Game Over</h2>
-        <button class="game-over-modal__close" id="closeModalBtn">×</button>
-      </div>
-      
-      <div class="game-over-modal__body">
-        <div class="game-over-modal__icon" id="gameOverIcon">💀</div>
-        <p class="game-over-modal__message" id="gameOverMessage">The battle has ended!</p>
-        
-        <div class="game-over-modal__stats" id="gameOverStats">
-          <div class="game-over-stat">
-            <span class="game-over-stat__label">Turns Survived:</span>
-            <span class="game-over-stat__value" id="turnsCount">0</span>
-          </div>
-          <div class="game-over-stat">
-            <span class="game-over-stat__label">Damage Dealt:</span>
-            <span class="game-over-stat__value" id="damageDealt">0</span>
-          </div>
-          <div class="game-over-stat">
-            <span class="game-over-stat__label">Damage Taken:</span>
-            <span class="game-over-stat__value" id="damageTaken">0</span>
+      <div class="main__videos-games">
+        <div class="main__videos">
+          <div class="main__videos-wrapper swiper videos">
+            <div class="swiper-wrapper videos__wrapper">
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/pRxb0WkPYDU?si=9Kps52jztfBexpi2" 
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/r4QVceQ0eWI?si=tG-LkvkMi1gske5-" 
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/J1zSjzdMWE8?si=4peMG1qhJJfKQK9D" 
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/9BuZDzHDHpk?si=YCcSPtpMyB9LoAqb"
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/cacTG7VQOV8?si=q_HZYy8HiBixrwOF"
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+              </div>
+              <div class="swiper-slide videos__slide">
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Idv5_jw8mvo?si=VOzeDf5tMIAVREMX"
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+              </div>
+            </div>
+            <!-- навигация -->
+            <div class="swiper-button-next videos__button-next"></div>
+            <div class="swiper-button-prev videos__button-prev"></div>
           </div>
         </div>
       </div>
-      
-      <div class="game-over-modal__footer">
-        <button class="btn btn--secondary" id="viewLogBtn">View Log</button>
-        <button class="btn btn--primary" id="newBattleBtn">New Battle</button>
-      </div>
-    </div>
+    </main>
   </div>
 </body>
 </html>

@@ -206,51 +206,6 @@ class SoundManager {
         this.musicPlaying = false;
     }
 
-    async createBackgroundMusic() {
-        await this.init();
-        if (!this.audioContext || !this.musicPlaying) return;
-
-        const playNote = (frequency, duration, delay = 0) => {
-            const oscillator = this.audioContext.createOscillator();
-            const gainNode = this.audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(this.masterGain);
-            
-            oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime + delay);
-            gainNode.gain.setValueAtTime(0, this.audioContext.currentTime + delay);
-            gainNode.gain.linearRampToValueAtTime(0.05, this.audioContext.currentTime + delay + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + delay + duration);
-            
-            oscillator.start(this.audioContext.currentTime + delay);
-            oscillator.stop(this.audioContext.currentTime + delay + duration);
-        };
-
-        const melody = [
-            {freq: 261.63, duration: 0.5},
-            {freq: 293.66, duration: 0.5},
-            {freq: 329.63, duration: 0.5},
-            {freq: 261.63, duration: 1.0},
-            {freq: 220.00, duration: 0.5},
-            {freq: 246.94, duration: 0.5},
-            {freq: 261.63, duration: 1.0},
-        ];
-
-        let currentTime = 0;
-        melody.forEach(note => {
-            playNote(note.freq, note.duration, currentTime);
-            currentTime += note.duration + 0.1;
-        });
-
-        if (this.musicPlaying) {
-            this.melodyTimeout = setTimeout(() => {
-                if (this.musicPlaying) {
-                    this.createBackgroundMusic();
-                }
-            }, (currentTime + 2) * 1000);
-        }
-    }
-
     enableAutoStart() {
         const enableAudioOnFirstInteraction = () => {
             this.startMusic();

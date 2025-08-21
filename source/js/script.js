@@ -6,24 +6,21 @@ import './auth/auth.js';
 import './player/player-data.js';
 import './selection-hero/select.js';
 import './selection-hero/select-nickname.js';
+import './fight/fight.js';
+import './fight/fight-data.js';
 import { initSound, playHoverSound, playClickSound, playSelectionSound } from './selection-hero/select-music.js';
 
 export { playHoverSound, playClickSound, playSelectionSound, initSound };
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing sound system...');
-    
     const soundInitialized = initSound();
     
     if (soundInitialized) {
-        console.log('Sound system successfully initialized');
         
         setTimeout(() => {
             const portraits = document.querySelectorAll('.portrait img');
             const continueBtn = document.getElementById('continue-btn');
             const musicBtn = document.getElementById('music-toggle');
-            
-            console.log(`Found ${portraits.length} portraits, continue button: ${!!continueBtn}, music button: ${!!musicBtn}`);
             
             document.addEventListener('keydown', (event) => {
                 if (event.key === ' ' || event.key === 'Spacebar') {
@@ -44,6 +41,5 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
         }, 500);
-        
     }
 });
