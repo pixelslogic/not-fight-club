@@ -32,8 +32,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'source/assets/img/icon/sprite.svg',
-          dest: 'assets/img/icon'
+          src: 'source/assets/icon/sprite.svg',
+          dest: 'assets/icon'
         }
       ]
     })

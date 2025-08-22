@@ -20,24 +20,80 @@
   <div class="app">
     <header class="header-fight">
       <nav class="nav-fight">
-        <a href="#" class="nav-fight__item">🎯 Browse</a>
-        <a href="#" class="nav-fight__item">👥 Characters</a>
-        <a href="#" class="nav-fight__item nav-fight__item--active">⚔️ Battle</a>
-        <a href="#" class="nav-fight__item">🗺️ Maps</a>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#nav-music"></use>
+          </svg>
+          <span>Music</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#aside-language"></use>
+          </svg>
+          <span>Language</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#aside-notification"></use>
+          </svg>
+          <span>Notifications</span>
+        </button>
+        <button href="#" class="nav-fight__item nav-fight__item--active">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#nav-battle"></use>
+          </svg>
+          <span>Battle</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#nav-games"></use>
+          </svg>
+          <span>Games</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/icon/sprite.svg#nav-settings"></use>
+          </svg>
+          <span>Settings</span>
+        </button>
       </nav>
       <div class="header-fight__actions">
-        <button class="btn" id="settingsBtn">Settings</button>
+        <button class="btn" id="settingsBtn">Perfil</button>
         <div class="user-avatar"></div>
       </div>
     </header>
 
     <aside class="sidebar">
-      <button class="sidebar__icon" type="button">🏠</button>
-      <button class="sidebar__icon">👥</button>
-      <button class="sidebar__icon sidebar__icon--active">⚔️</button>
-      <button class="sidebar__icon">💬</button>
-      <button class="sidebar__icon">✅</button>
-      <button class="sidebar__icon">❓</button>
+      <button class="sidebar__icon" type="button" aria-label="home">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/icon/sprite.svg#aside-home"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="users">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets//icon/sprite.svg#aside-users"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="chat">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/icon/sprite.svg#aside-message"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="achievements">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/icon/sprite.svg#aside-trophy"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="stats">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/icon/sprite.svg#aside-analytics"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="votes">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/icon/sprite.svg#aside-vote"></use>
+        </svg>
+      </button>
     </aside>
 
     <main class="main">
