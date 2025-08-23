@@ -441,21 +441,30 @@ class CharacterSelector {
 
 const characterSelector = new CharacterSelector();
 
-if (document.readyState === 'loading') {
-    document.addEventListener("DOMContentLoaded", () => {
-        characterSelector.init();
+class CharacterSelectorManager {
+    constructor() {
+        this.initialized = false;
+    }
+
+    async init() {
+        if (this.initialized) return;
+        
+        if (document.readyState === 'loading') {
+            await new Promise(resolve => {
+                document.addEventListener('DOMContentLoaded', resolve, { once: true });
+            });
+        }
+        
+        await characterSelector.waitForElements();
+        await characterSelector.init();
         characterSelector.setupKeyboardNavigation();
-    });
-} else {
-    setTimeout(() => {
-        characterSelector.init();
-        characterSelector.setupKeyboardNavigation();
-    }, 100);
+        
+        this.initialized = true;
+        console.log('CharacterSelector initialized successfully');
+    }
 }
 
-setTimeout(() => {
-    characterSelector.init();
-    characterSelector.setupKeyboardNavigation();
-}, 500);
+const manager = new CharacterSelectorManager();
+manager.init();
 
 export { characterData, isCharacterUnlocked, LOCKED_CHARACTERS, characterSelector };

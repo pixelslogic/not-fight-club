@@ -1,4 +1,3 @@
-import { playClickSound } from '../selection-hero/select-music.js';
 import { savePlayerData, generatePlayerNumber, validatePlayerData } from '../player/player-data.js';
 
 const authForm = document.getElementById('authForm');
@@ -21,8 +20,8 @@ if (authForm && usernameInput && loginButton) {
         if (authBlock) {
             authBlock.classList.add('glitch');
         }
-        if (typeof playClickSound === 'function') {
-            playClickSound();
+        if (window.playClickSound) {
+            window.playClickSound();
         }
         setTimeout(() => {
             usernameInput.classList.remove('input__field--error');
@@ -56,8 +55,8 @@ if (authForm && usernameInput && loginButton) {
                 showValidationError();
                 return;
             }
-            if (typeof playClickSound === 'function') {
-                playClickSound();
+            if (window.playClickSound) {
+                window.playClickSound();
             }
             setTimeout(() => {
                 window.location.href = 'selection_hero.html';

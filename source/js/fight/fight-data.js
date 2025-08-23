@@ -45,6 +45,10 @@ const enemyData = {
 
 function saveSelectedCharacter(characterId) {
     localStorage.setItem(SELECTED_CHARACTER_KEY, String(characterId));
+    if (window.profileManager) {
+        window.profileManager.loadProfile();
+        window.profileManager.updateAllDisplays();
+    }
 }
 
 function getSelectedCharacter() {
@@ -61,6 +65,9 @@ function getPlayerDataFromStorage() {
 }
 
 function getPlayerNickname() {
+    const username = localStorage.getItem('username');
+    if (username) return username;
+    
     const playerData = getPlayerDataFromStorage();
     return playerData ? playerData.username : null;
 }
@@ -90,7 +97,12 @@ function displaySelectedCharacter() {
     
     updatePlayerImages();
     updateUserAvatar();
-    updateHeaderNickname();
+    removeUserNicknames();
+    
+    if (window.profileManager) {
+        window.profileManager.loadProfile();
+        window.profileManager.updateAllDisplays();
+    }
 }
 
 function updatePlayerImages() {
@@ -117,6 +129,13 @@ function updateUserAvatar() {
         avatar.style.backgroundSize = 'cover';
         avatar.style.backgroundPosition = 'center';
     });
+    
+    const profileAvatar = document.getElementById('profileAvatar');
+    if (profileAvatar) {
+        profileAvatar.style.backgroundImage = `url(${portraitUrl})`;
+        profileAvatar.style.backgroundSize = 'cover';
+        profileAvatar.style.backgroundPosition = 'center';
+    }
 }
 
 function updateEnemyImage(enemyKey) {
@@ -132,24 +151,6 @@ function updateEnemyImage(enemyKey) {
     });
 }
 
-function updateHeaderNickname() {
-    const nickname = getPlayerNickname();
-    
-    let nicknameElement = document.querySelector('.user-nickname');
-    if (!nicknameElement) {
-        const userAvatar = document.querySelector('.user-avatar');
-        if (userAvatar && userAvatar.parentNode) {
-            nicknameElement = document.createElement('span');
-            nicknameElement.className = 'user-nickname';
-            userAvatar.parentNode.insertBefore(nicknameElement, userAvatar.nextSibling);
-        }
-    }
-    
-    if (nicknameElement && nickname) {
-        nicknameElement.textContent = nickname.toUpperCase();
-    }
-}
-
 function handleEnemySelection() {
     const enemyCards = document.querySelectorAll('[data-enemy]');
     
@@ -161,16 +162,45 @@ function handleEnemySelection() {
     });
 }
 
+function removeUserNicknames() {
+    const existingNicknames = document.querySelectorAll('.user-nickname, #user-nickname');
+    existingNicknames.forEach(el => {
+        el.remove();
+    });
+    
+    const navItems = document.querySelectorAll('.nav-fight__item, .header-fight__actions, .nav-fight');
+    navItems.forEach(item => {
+        const nicknames = item.querySelectorAll('.user-nickname, #user-nickname');
+        nicknames.forEach(nick => nick.remove());
+    });
+    
+    const allSpans = document.querySelectorAll('span');
+    allSpans.forEach(span => {
+        if (span.classList.contains('user-nickname') || 
+            span.textContent.includes('КОТЛЕТКА') ||
+            span.textContent.includes('огуречикчик')) {
+            span.remove();
+        }
+    });
+}
+
 function updateCharacterDisplay() {
     displaySelectedCharacter();
+    removeUserNicknames();
 }
 
 function initCharacterDisplay() {
     displaySelectedCharacter();
     handleEnemySelection();
     
+    if (window.nicknameDisplay) {
+        window.nicknameDisplay.init();
+    } else {
+        removeUserNicknames();
+    }
+    
     window.addEventListener('storage', (e) => {
-        if (e.key === SELECTED_CHARACTER_KEY || e.key === 'playerData') {
+        if (e.key === SELECTED_CHARACTER_KEY || e.key === 'playerData' || e.key === 'username') {
             updateCharacterDisplay();
         }
     });
@@ -193,10 +223,44 @@ function getCurrentCharacterInfo() {
     };
 }
 
+function updateProfileInLocalStorage() {
+    const characterId = getSelectedCharacter() || '456';
+    const nickname = getPlayerNickname() || 'Player';
+    
+    if (!localStorage.getItem('playerNumber')) {
+        localStorage.setItem('playerNumber', characterId);
+    }
+    
+    if (!localStorage.getItem('username') && nickname !== 'Player') {
+        localStorage.setItem('username', nickname);
+    }
+}
+
+function syncWithPopupManager() {
+    if (window.profileManager) {
+        window.profileManager.loadProfile();
+        window.profileManager.updateAllDisplays();
+    }
+}
+
+function initCharacterDisplayWithPopups() {
+    const waitForPopupManager = () => {
+        if (window.profileManager) {
+            syncWithPopupManager();
+        } else {
+            setTimeout(waitForPopupManager, 100);
+        }
+    };
+    
+    initCharacterDisplay();
+    updateProfileInLocalStorage();
+    waitForPopupManager();
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCharacterDisplay);
+    document.addEventListener('DOMContentLoaded', initCharacterDisplayWithPopups);
 } else {
-    setTimeout(initCharacterDisplay, 100);
+    setTimeout(initCharacterDisplayWithPopups, 100);
 }
 
 window.CharacterDisplay = {
@@ -210,6 +274,21 @@ window.CharacterDisplay = {
     init: initCharacterDisplay,
     updateImages: updatePlayerImages,
     updateAvatar: updateUserAvatar,
-    updateNickname: updateHeaderNickname,
-    updateEnemy: updateEnemyImage
+    updateEnemy: updateEnemyImage,
+    removeNicknames: removeUserNicknames,
+    sync: syncWithPopupManager,
+    characterData: characterData,
+    enemyData: enemyData
+};
+
+export {
+    saveSelectedCharacter,
+    getSelectedCharacter,
+    getPlayerNickname,
+    displaySelectedCharacter,
+    updateCharacterDisplay,
+    getCurrentCharacterInfo,
+    removeUserNicknames,
+    characterData,
+    enemyData
 };
