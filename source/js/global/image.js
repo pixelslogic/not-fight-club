@@ -146,7 +146,6 @@ export {
     debugImages,
     testCharacterImage,
     getImageStats,
-    clearImageCache,
     imageExists,
     getCharacterImages
 };

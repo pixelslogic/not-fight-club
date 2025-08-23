@@ -273,6 +273,11 @@ class CharacterSelector {
         if (activeCharacter) {
             activeCharacter.classList.add('active');
         }
+
+        if (this.elements.background) {
+            this.elements.background.style.transition = "background 0.4s ease";
+            this.elements.background.style.background = `linear-gradient(${character.gradientDirection}, ${character.gradientColors[0]}, ${character.gradientColors[1]})`;
+        }
     }
 
     applyLockedStyles(characterElement, characterKey) {
