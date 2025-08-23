@@ -1,29 +1,39 @@
+import pixelIcon456 from '../../assets/img/players/456/pixel-icon-456.png';
+import pixelIcon390 from '../../assets/img/players/390/pixel-icon-390.png';
+import pixelIcon120 from '../../assets/img/players/120/pixel-icon-120.png';
+import pixelIcon388 from '../../assets/img/players/388/pixel-icon-388.png';
+import pixelIcon246 from '../../assets/img/players/246/pixel-icon-246.png';
+
+import workerIcon from '../../assets/img/guards/worker/pixel-icon-worker.png';
+import soldierIcon from '../../assets/img/guards/soldier/pixel-icon-soldier.png';
+import managerIcon from '../../assets/img/guards/manager/pixel-icon-manager.png';
+
 const SELECTED_CHARACTER_KEY = 'selectedCharacter';
 
 const characterData = {
     456: {
         playerName: "Seong Gi-hun",
-        portrait: "../assets/img/players/456/pixel-icon-456.png",
+        portrait: pixelIcon456,
         unlocked: true
     },
     390: {
         playerName: "Park Jung-bae", 
-        portrait: "../assets/img/players/390/pixel-icon-390.png",
+        portrait: pixelIcon390,
         unlocked: true
     },
     120: {
         playerName: "Cho Hyun-ju",
-        portrait: "../assets/img/players/120/pixel-icon-120.png", 
+        portrait: pixelIcon120, 
         unlocked: true
     },
     388: {
         playerName: "Kang Dae-ho",
-        portrait: "../assets/img/players/388/pixel-icon-388.png",
+        portrait: pixelIcon388,
         unlocked: true
     },
     246: {
         playerName: "Park Gyeong-seok",
-        portrait: "../assets/img/players/246/pixel-icon-246.png",
+        portrait: pixelIcon246,
         unlocked: true
     }
 };
@@ -31,15 +41,15 @@ const characterData = {
 const enemyData = {
     worker: {
         enemyName: "Worker",
-        portrait: "../assets/img/guards/worker/pixel-icon-worker.png"
+        portrait: workerIcon
     },
     soldier: {
         enemyName: "Soldier",
-        portrait: "../assets/img/guards/soldier/pixel-icon-soldier.png"
+        portrait: soldierIcon
     },
     manager: {
         enemyName: "Manager",
-        portrait: "../assets/img/guards/manager/pixel-icon-manager.png"
+        portrait: managerIcon
     }
 };
 

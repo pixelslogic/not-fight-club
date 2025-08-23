@@ -371,7 +371,7 @@ class ProfileManager {
     this.saveBattleLogs();
     this.showProgress();
     setTimeout(() => {
-      window.location.href = 'selectionhero.html';
+      window.location.href = 'selection_hero.html';
     }, 1500);
   }
 

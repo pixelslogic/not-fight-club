@@ -63,43 +63,39 @@
       </div>
     </header>
 
-    <!-- Исправленная секция попапа музыки -->
-<div class="popup music-popup" id="musicPopup">
-  <div class="popup__header">
-    <h3 class="popup__title">Music Settings</h3>
-    <button class="popup__close" id="closeMusicPopup">x</button>
-  </div>
-  <div class="volume-control">
-    <label class="volume-control__label">Volume</label>
-    <!-- Исправление проблемы 1: исправляем type с "volume-control__range" на "range" -->
-    <input type="range" class="volume-control__range" id="volumeSlider" min="0" max="100" value="50">
-    <div class="volume-control__display" id="volumeDisplay">50%</div>
-  </div>
-  <div class="music-controls">
-    <button class="music-btn active" id="playBtn">Play</button>
-    <button class="music-btn" id="pauseBtn">Pause</button>
-    <button class="music-btn" id="muteBtn">Mute</button>
-  </div>
-</div>
+    <div class="popup music-popup" id="musicPopup">
+      <div class="popup__header">
+        <h3 class="popup__title">Music Settings</h3>
+        <button class="popup__close" id="closeMusicPopup">x</button>
+      </div>
+      <div class="volume-control">
+        <label class="volume-control__label">Volume</label>
+        <input type="range" class="volume-control__range" id="volumeSlider" min="0" max="100" value="50">
+        <div class="volume-control__display" id="volumeDisplay">50%</div>
+      </div>
+      <div class="music-controls">
+        <button class="music-btn active" id="playBtn">Play</button>
+        <button class="music-btn" id="pauseBtn">Pause</button>
+        <button class="music-btn" id="muteBtn">Mute</button>
+      </div>
+    </div>
 
-<!-- Исправленная секция попапа профиля -->
-<div class="popup profile-popup" id="profilePopup">
-  <div class="popup__header">
-    <h3 class="popup__title">Player Profile</h3>
-    <button class="popup__close" id="closeProfilePopup">×</button>
-  </div>
-  <div class="profile-info">
-    <div class="profile-info__avatar" id="profileAvatar"></div>
-    <!-- Исправление проблемы 6: добавляем элемент для номера игрока -->
-    <div class="profile-info__number" id="playerNumber">Player 456</div>
-    <div class="profile-info__name" id="profileName">Player</div>
-  </div>
-  <div class="profile__buttons-wrapper">
-    <button class="profile__button">Change the character</button>
-    <button class="profile__button">Change nickname</button>
-  </div>
-  <div class="profile__setting"></div>
-</div>
+    <div class="popup profile-popup" id="profilePopup">
+      <div class="popup__header">
+        <h3 class="popup__title">Player Profile</h3>
+        <button class="popup__close" id="closeProfilePopup">×</button>
+      </div>
+      <div class="profile-info">
+        <div class="profile-info__avatar" id="profileAvatar"></div>
+        <div class="profile-info__number" id="playerNumber">Player 456</div>
+        <div class="profile-info__name" id="profileName">Player</div>
+      </div>
+      <div class="profile__buttons-wrapper">
+        <button class="profile__button">Change the character</button>
+        <button class="profile__button">Change nickname</button>
+      </div>
+      <div class="profile__setting"></div>
+    </div>
 
     <audio id="fight-music" autoplay loop>
       <source src="./assets/music/Counter Strike.mp3" type="audio/mpeg">
@@ -116,7 +112,7 @@
       </button>
       <button class="sidebar__icon" type="button" aria-label="users">
         <svg class="sidebar__svg" width="24" height="24">
-          <use href="./assets//icon/sprite.svg#aside-users"></use>
+          <use href="./assets/icon/sprite.svg#aside-users"></use>
         </svg>
       </button>
       <button class="sidebar__icon" type="chat">

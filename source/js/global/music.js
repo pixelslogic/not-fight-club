@@ -1,3 +1,6 @@
+import soundIcon from '../../assets/icon/sound.svg';
+import soundPauseIcon from '../../assets/icon/sound-pause.svg';
+
 class AudioManager {
     constructor() {
         this.audioContext = null;
@@ -206,10 +209,10 @@ class AudioManager {
     }
 
     updateSoundIcons() {
-        const soundIcon = document.querySelector('.main__sound-icon');
-        if (!soundIcon) return;
+        const soundIconElement = document.querySelector('.main__sound-icon');
+        if (!soundIconElement) return;
         const isPlaying = this.backgroundMusic && !this.backgroundMusic.paused && !this.globalMuted;
-        soundIcon.src = isPlaying ? "./assets/icon/sound.svg" : "./assets/icon/sound-pause.svg";
+        soundIconElement.src = isPlaying ? soundIcon : soundPauseIcon;
     }
 
     getState() {

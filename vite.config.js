@@ -2,6 +2,15 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import autoprefixer from 'autoprefixer';
+import fs from 'fs';
+
+const htmlFiles = fs.readdirSync(resolve(process.cwd(), 'source'))
+  .filter(file => file.endsWith('.html'))
+  .reduce((entries, file) => {
+    const name = file.replace(/\.html$/, '');
+    entries[name] = resolve(process.cwd(), 'source', file);
+    return entries;
+  }, {});
 
 export default defineConfig({
   root: 'source',
@@ -11,7 +20,7 @@ export default defineConfig({
     assetsDir: 'assets',
     emptyOutDir: true,
     rollupOptions: {
-      input: resolve(__dirname, 'source/index.html'),
+      input: htmlFiles,
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
@@ -32,7 +41,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'source/assets/icon/sprite.svg',
+          src: 'assets/icon/sprite.svg',
           dest: 'assets/icon'
         }
       ]
