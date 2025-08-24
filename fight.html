@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not a fight game, it's squid game</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="icon" href="./assets/favicon-DvgVCXvO.ico">
+  <script type="module" crossorigin src="./assets/vendor-C0zxSBbF.js"></script>
+  <script type="module" crossorigin src="./assets/script-BmwXJibn.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/vendor-DV8PrLMj.css">
+  <link rel="stylesheet" crossorigin href="./assets/script-BgYeMlaW.css">
+</head>
+<body>
+  <div class="background">
+    <video class="background__video" autoplay muted loop>
+      <source src="./assets/revolt-B477Fd28.webm" type="video/webm">
+    </video>
+    <div class="background__overlay"></div>
+    <div class="background__gradient"></div>
+  </div>
+
+  <div class="app">
+    <header class="header-fight">
+      <nav class="nav-fight">
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#nav-music"></use>
+          </svg>
+          <span>Music</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#aside-language"></use>
+          </svg>
+          <span>Language</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#aside-notification"></use>
+          </svg>
+          <span>Notifications</span>
+        </button>
+        <button href="#" class="nav-fight__item nav-fight__item--active">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#nav-battle"></use>
+          </svg>
+          <span>Battle</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#nav-games"></use>
+          </svg>
+          <span>Games</span>
+        </button>
+        <button href="#" class="nav-fight__item">
+          <svg class="sidebar__svg" width="24" height="24">
+            <use href="./assets/sprite-BREjSNqn.svg#nav-settings"></use>
+          </svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+      <div class="header-fight__actions">
+        <button class="btn" id="settingsBtn">Profile</button>
+        <div class="user-avatar"></div>
+      </div>
+    </header>
+
+    <div class="popup music-popup" id="musicPopup">
+      <div class="popup__header">
+        <h3 class="popup__title">Music Settings</h3>
+        <button class="popup__close" id="closeMusicPopup">x</button>
+      </div>
+      <div class="volume-control">
+        <label class="volume-control__label">Volume</label>
+        <input type="range" class="volume-control__range" id="volumeSlider" min="0" max="100" value="50">
+        <div class="volume-control__display" id="volumeDisplay">50%</div>
+      </div>
+      <div class="music-controls">
+        <button class="music-btn active" id="playBtn">Play</button>
+        <button class="music-btn" id="pauseBtn">Pause</button>
+        <button class="music-btn" id="muteBtn">Mute</button>
+      </div>
+    </div>
+
+    <div class="popup profile-popup" id="profilePopup">
+      <div class="popup__header">
+        <h3 class="popup__title">Player Profile</h3>
+        <button class="popup__close" id="closeProfilePopup">×</button>
+      </div>
+      <div class="profile-info">
+        <div class="profile-info__avatar" id="profileAvatar"></div>
+        <div class="profile-info__number" id="playerNumber">Player 456</div>
+        <div class="profile-info__name" id="profileName">Player</div>
+      </div>
+      <div class="profile__buttons-wrapper">
+        <button class="profile__button">Change the character</button>
+        <button class="profile__button">Change nickname</button>
+      </div>
+      <div class="profile__setting"></div>
+    </div>
+
+    <audio id="fight-music" autoplay loop>
+      <source src="./assets/Counter%20Strike-CY8Co6sY.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="hover-sound" preload="auto"></audio>
+    <audio id="click-sound" preload="auto"></audio>
+    <audio id="selection-sound" preload="auto"></audio>
+
+    <aside class="sidebar">
+      <a class="sidebar__icon" type="button" aria-label="home" href="index.html">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-home"></use>
+        </svg>
+      </a>
+      <button class="sidebar__icon" type="button" aria-label="users">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-users"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="chat">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-message"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="achievements">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-trophy"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="stats">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-analytics"></use>
+        </svg>
+      </button>
+      <button class="sidebar__icon" type="button" aria-label="votes">
+        <svg class="sidebar__svg" width="24" height="24">
+          <use href="./assets/sprite-BREjSNqn.svg#aside-vote"></use>
+        </svg>
+      </button>
+    </aside>
+
+    <main class="main">
+      <div class="container-fight">
+        <header class="game-header">
+          <h1 class="game-header__title">REVOLT</h1>
+          <span class="game-header__round-info" id="roundInfo">Round 1 | Choose your opponent</span>
+
+          <div class="opponent-selector" id="opponentSelector">
+            <div class="opponent-card" data-enemy="worker">
+              <div class="opponent-card__name">Worker ⭘</div>
+              <div class="opponent-card__stats">
+                HP: 100 | ATK: 2 zones | DEF: 1 zone<br>
+                Crit: 5% (x3.0)<br>
+                <strong>Your tactics: 2 ATK | 1 DEF</strong>
+              </div>
+            </div>
+                
+            <div class="opponent-card" data-enemy="soldier">
+              <div class="opponent-card__name">Soldier △</div>
+              <div class="opponent-card__stats">
+                HP: 150 | ATK: 1 zone | DEF: 3 zones<br>
+                Crit: 10% (x2.0)<br>
+                <strong>Your tactics: 1 ATK | 3 DEF</strong>
+              </div>
+            </div>
+            
+            <div class="opponent-card" data-enemy="manager">
+              <div class="opponent-card__name">Manager ☐</div>
+              <div class="opponent-card__stats">
+                HP: 200 | ATK: 1 zone | DEF: 2 zones<br>
+                Crit: 15% (x1.7)<br>
+                <strong>Your tactics: 1 ATK | 2 DEF</strong>
+              </div>
+            </div>
+          </div>
+        </header>
+          
+        <main class="battle-arena" id="battleArena">
+          <div class="fighter-section fighter-section--player">
+            <div class="fighter-section__shadow">
+              <div class="fighter-section__info">
+                <img class="fighter-section__img" src="https://www.thebeekmantowerny.com/wp-content/uploads/2016/12/200x200.png" alt="player icon">
+                <h2 class="fighter-section__name fighter-section__name--player">PLAYER 456</h2>
+                <div class="health-bar">
+                  <div class="health-bar__fill" id="playerHealthBar" style="width: 100%;"></div>
+                  <div class="health-bar__text" id="playerHealthText">200 / 200</div>
+                </div>
+              </div>
+                
+              <div class="body-zones">
+                <button class="zone zone--head" type="button" data-zone="head" data-fighter="player">
+                  HEAD
+                </button>
+                <button class="zone zone--neck" type="button" data-zone="neck" data-fighter="player">
+                  NECK
+                </button>
+                <button class="zone zone--body" type="button" data-zone="body" data-fighter="player">
+                  BODY
+                </button>
+                <button class="zone zone--belly" type="button" data-zone="belly" data-fighter="player">
+                  BELLY
+                </button>
+                <button class="zone zone--legs" type="button" data-zone="legs" data-fighter="player">
+                  LEGS
+                </button>
+              </div>
+            </div>
+          </div>
+              
+          <aside class="controls">
+            <div class="controls__turn-info">
+              <div class="controls__turn-phase" id="turnPhase">TURN 1</div>
+              <div class="controls__selection-status" id="selectionStatus">
+                Attack: 0/1<br>
+                Defense: 0/2
+              </div>
+              <div class="controls__instructions">
+                Click enemy zones to attack<br>
+                Click your zones to defend
+              </div>
+            </div>
+              
+            <button class="button button--attack" id="attackButton" disabled>
+              ATTACK!
+            </button>
+          </aside>
+              
+          <section class="fighter-section fighter-section--enemy">
+            <div class="fighter-section__shadow">
+              <div class="fighter-section__info">
+                <img class="fighter-section__img" src="https://www.thebeekmantowerny.com/wp-content/uploads/2016/12/200x200.png" alt="enemy icon">
+                <div class="fighter-section__name fighter-section__name--enemy" id="enemyName">Choose Enemy</div>
+                <div class="health-bar">
+                  <div class="health-bar__fill health-bar__fill--enemy" id="enemyHealthBar" style="width: 100%;"></div>
+                  <div class="health-bar__text" id="enemyHealthText">100 / 100</div>
+                </div>
+              </div>
+              
+              <div class="body-zones body-zones--enemy">
+                <button class="zone zone--head" type="button" data-zone="head" data-fighter="enemy">
+                  HEAD
+                  <span class="zone__status" id="enemyHeadStatus"></span>
+                </button>
+                <button class="zone zone--neck" type="button" data-zone="neck" data-fighter="enemy">
+                  NECK
+                  <span class="zone__status" id="enemyNeckStatus"></span>
+                </button>
+                <button class="zone zone--body" type="button" data-zone="body" data-fighter="enemy">
+                  BODY
+                </button>
+                <button class="zone zone--belly" type="button" data-zone="belly" data-fighter="enemy">
+                  BELLY
+                </button>
+                <button class="zone zone--legs" type="button" data-zone="legs" data-fighter="enemy">
+                  LEGS
+                  <span class="zone__status" id="enemyLegsStatus"></span>
+                </button>
+              </div>
+            </div>
+          </section>
+        </main>
+          
+        <section class="battle-logs" id="battleLogs">
+          <h2 class="battle-logs__title">BATTLE LOG</h2>
+            
+          <div class="logs" id="battleLogContent">
+            <div class="logs__turn">GAME START</div>
+            <div class="logs__action logs__action--waiting">
+              Choose your opponent to begin the battle...
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="game-over-modal" id="gameOverModal" style="display: none;">
+    <div class="game-over-modal__backdrop" id="modalBackdrop"></div>
+    <div class="game-over-modal__content">
+      <div class="game-over-modal__header">
+        <h2 class="game-over-modal__title" id="gameOverTitle">Game Over</h2>
+        <button class="game-over-modal__close" id="closeModalBtn">×</button>
+      </div>
+      
+      <div class="game-over-modal__body">
+        <div class="game-over-modal__icon" id="gameOverIcon">💀</div>
+        <p class="game-over-modal__message" id="gameOverMessage">Player 456 eliminated!</p>
+        
+        <div class="game-over-modal__stats" id="gameOverStats">
+          <div class="game-over-stat">
+            <span class="game-over-stat__label">Turns Survived:</span>
+            <span class="game-over-stat__value" id="turnsCount">0</span>
+          </div>
+          <div class="game-over-stat">
+            <span class="game-over-stat__label">Damage Dealt:</span>
+            <span class="game-over-stat__value" id="damageDealt">0</span>
+          </div>
+          <div class="game-over-stat">
+            <span class="game-over-stat__label">Damage Taken:</span>
+            <span class="game-over-stat__value" id="damageTaken">0</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="game-over-modal__footer">
+        <button class="btn btn--secondary" id="viewLogBtn">View Log</button>
+        <button class="btn btn--primary" id="newBattleBtn">New Battle</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
