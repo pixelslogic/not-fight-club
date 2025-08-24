@@ -27,12 +27,6 @@ class NicknameDisplay {
             this.displayElements.add(profileName);
         }
 
-        const fighterName = document.querySelector('.fighter-section__name--player');
-        if (fighterName) {
-            fighterName.textContent = nickname.toUpperCase();
-            this.displayElements.add(fighterName);
-        }
-
         const popupProfileName = document.querySelector('.profile-popup #profileName');
         if (popupProfileName) {
             popupProfileName.textContent = nickname;

@@ -100,7 +100,7 @@ function displaySelectedCharacter() {
     const selectedCharacterId = getSelectedCharacter();
     const fighterNameElement = document.querySelector('.fighter-section__name--player');
     
-    if (fighterNameElement) {
+    if (fighterNameElement && !window.characterDisplayInitialized) {
         const characterId = selectedCharacterId || '456';
         fighterNameElement.textContent = `PLAYER ${characterId}`;
     }
@@ -195,13 +195,40 @@ function removeUserNicknames() {
 }
 
 function updateCharacterDisplay() {
-    displaySelectedCharacter();
+    updatePlayerImages();
+    updateUserAvatar();
     removeUserNicknames();
+    
+    if (window.profileManager) {
+        window.profileManager.loadProfile();
+        window.profileManager.updateAllDisplays();
+    }
+}
+
+function updateCharacterOnly() {
+    const selectedCharacterId = getSelectedCharacter();
+    const fighterNameElement = document.querySelector('.fighter-section__name--player');
+    
+    if (fighterNameElement) {
+        const characterId = selectedCharacterId || '456';
+        fighterNameElement.textContent = `PLAYER ${characterId}`;
+    }
+    
+    updatePlayerImages();
+    updateUserAvatar();
+    
+    if (window.profileManager) {
+        window.profileManager.loadProfile();
+        window.profileManager.updateAllDisplays();
+    }
 }
 
 function initCharacterDisplay() {
+    window.characterDisplayInitialized = false;
+    
     displaySelectedCharacter();
     handleEnemySelection();
+    window.characterDisplayInitialized = true;
     
     if (window.nicknameDisplay) {
         window.nicknameDisplay.init();
@@ -210,7 +237,9 @@ function initCharacterDisplay() {
     }
     
     window.addEventListener('storage', (e) => {
-        if (e.key === SELECTED_CHARACTER_KEY || e.key === 'playerData' || e.key === 'username') {
+        if (e.key === SELECTED_CHARACTER_KEY) {
+            updateCharacterOnly();
+        } else if (e.key === 'playerData' || e.key === 'username') {
             updateCharacterDisplay();
         }
     });
@@ -279,6 +308,7 @@ window.CharacterDisplay = {
     getNickname: getPlayerNickname,
     display: displaySelectedCharacter,
     update: updateCharacterDisplay,
+    updateCharacterOnly: updateCharacterOnly,
     clear: clearSelectedCharacter,
     getCurrentInfo: getCurrentCharacterInfo,
     init: initCharacterDisplay,

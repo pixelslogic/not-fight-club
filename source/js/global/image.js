@@ -93,15 +93,6 @@ async function preloadAllCharacterImages(playerIds = null) {
     return results;
 }
 
-function debugImages() {
-    for (const [playerId, images] of Object.entries(imageMap)) {
-        console.log(`${playerId}:`, {
-            fullBody: images.fullBody,
-            portrait: images.portrait
-        });
-    }
-}
-
 function testCharacterImage(playerId) {
     const fullBody = getImagePath(playerId, 'fullBody');
     const testImg = new Image();
@@ -143,7 +134,6 @@ export {
     discoverAllCharacters,
     preloadCharacterImages,
     preloadAllCharacterImages,
-    debugImages,
     testCharacterImage,
     getImageStats,
     imageExists,

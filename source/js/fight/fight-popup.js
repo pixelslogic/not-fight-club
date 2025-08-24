@@ -214,26 +214,85 @@ class ProfileManager {
     this.currentCharacter = '';
     this.playerName = '';
     this.playerNumber = '';
+    this.gameHistory = [];
+    this.wins = 0;
+    this.losses = 0;
     this.init();
   }
 
   init() {
     this.setupButtons();
     this.loadProfile();
+    this.loadGameHistory();
     this.updateAllDisplays();
     this.removeExistingNicknames();
   }
 
   setupButtons() {
-    const changeCharacterBtn = document.querySelector('.profile__button');
-    const changeNicknameBtn = document.querySelectorAll('.profile__button')[1];
-
+    const changeCharacterBtn = document.querySelector('.profile__button:nth-child(1)');
+    const changeNicknameBtn = document.querySelector('.profile__button:nth-child(2)');
+    
     if (changeCharacterBtn) {
       changeCharacterBtn.addEventListener('click', () => this.goToSelection());
     }
 
     if (changeNicknameBtn) {
       changeNicknameBtn.addEventListener('click', () => this.toggleNicknameInput());
+    }
+  }
+
+  saveGameResult(result, enemyKey, stats) {
+    const entry = {
+      result: result,
+      enemy: enemyKey,
+      stats: stats,
+      timestamp: Date.now()
+    };
+    this.gameHistory.push(entry);
+    if (result === 'victory') {
+      this.wins += 1;
+    } else {
+      this.losses += 1;
+    }
+    this.saveGameHistory();
+    this.updateGameHistoryDisplay();
+  }
+
+  loadGameHistory() {
+    try {
+      const savedHistory = localStorage.getItem('gameHistory');
+      this.gameHistory = savedHistory ? JSON.parse(savedHistory) : [];
+      this.wins = this.gameHistory.filter(entry => entry.result === 'victory').length;
+      this.losses = this.gameHistory.filter(entry => entry.result === 'defeat').length;
+    } catch {
+      this.gameHistory = [];
+      this.wins = 0;
+      this.losses = 0;
+    }
+    this.updateGameHistoryDisplay();
+  }
+
+  saveGameHistory() {
+    try {
+      localStorage.setItem('gameHistory', JSON.stringify(this.gameHistory));
+    } catch {}
+  }
+
+  updateGameHistoryDisplay() {
+    let historyContainer = document.getElementById('gameHistory');
+    const profilePopup = document.getElementById('profilePopup');
+
+    if (!historyContainer && profilePopup) {
+      historyContainer = document.createElement('div');
+      historyContainer.id = 'gameHistory';
+      historyContainer.className = 'profile__history';
+      historyContainer.innerHTML = '<h3>Game History</h3><div id="historyStats"></div>';
+      profilePopup.appendChild(historyContainer);
+    }
+
+    const historyStats = document.getElementById('historyStats');
+    if (historyStats) {
+      historyStats.innerHTML = `Win: ${this.wins} | Lose: ${this.losses}`;
     }
   }
 
@@ -287,22 +346,27 @@ class ProfileManager {
     if (!newName.trim()) return;
     
     if (window.nicknameDisplay) {
-        const success = window.nicknameDisplay.changeNickname(newName);
-        if (success) {
-            this.showNotification('Nickname updated!');
-        }
-    } else {
-        this.playerName = newName.trim();
-        localStorage.setItem('username', this.playerName);
-        this.updateAllDisplays();
+      const success = window.nicknameDisplay.changeNickname(newName);
+      if (success) {
         this.showNotification('Nickname updated!');
+      }
+    } else {
+      this.playerName = newName.trim();
+      localStorage.setItem('username', this.playerName);
+      this.updateProfileDisplay();
+      this.updateAvatarDisplay();
+      this.removeExistingNicknames();
+      this.updateGameHistoryDisplay();
+      
+      this.showNotification('Nickname updated!');
     }
-}
+  }
 
   updateAllDisplays() {
     this.updateProfileDisplay();
     this.removeExistingNicknames();
     this.updateAvatarDisplay();
+    this.updateGameHistoryDisplay();
   }
 
   updateProfileDisplay() {
@@ -361,7 +425,7 @@ class ProfileManager {
       const selectedCharacter = localStorage.getItem('selectedCharacter') || '456';
       this.playerNumber = `Player ${selectedCharacter}`;
       this.currentCharacter = selectedCharacter;
-    } catch (e) {
+    } catch {
       this.playerName = 'Player';
       this.playerNumber = 'Player 456';
     }
@@ -387,7 +451,7 @@ class ProfileManager {
     
     try {
       localStorage.setItem('battleState', JSON.stringify(gameState));
-    } catch (e) {}
+    } catch {}
   }
 
   getBattleLogs() {
@@ -444,17 +508,17 @@ function removeAllNicknames() {
 }
 
 function initPopupSystem() {
-    if (window.nicknameDisplay) {
-        window.nicknameDisplay.init();
-    }
-    
-    removeAllNicknames();
-    
-    const popupManager = new PopupManager();
-    const profileManager = new ProfileManager();
+  if (window.nicknameDisplay) {
+    window.nicknameDisplay.init();
+  }
+  
+  removeAllNicknames();
+  
+  const popupManager = new PopupManager();
+  const profileManager = new ProfileManager();
 
-    window.popupManager = popupManager;
-    window.profileManager = profileManager;
+  window.popupManager = popupManager;
+  window.profileManager = profileManager;
 }
 
 if (document.readyState === 'loading') {

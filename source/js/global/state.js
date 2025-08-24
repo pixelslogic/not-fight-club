@@ -22,6 +22,7 @@ class StateManager {
                 },
                 enemyStats: null,
                 battleLogs: [],
+                defeatedEnemies: [],
                 gameActive: false,
                 gameStartTime: null
             },
@@ -79,14 +80,21 @@ class StateManager {
     async load() {
         try {
             const savedState = this.loadFromStorage('appState');
+            const battleState = this.loadFromStorage('battleState');
+            
             if (savedState && this.validateState(savedState)) {
                 this.state = this.mergeStates(this.defaultState, savedState);
+                
+                if (battleState && battleState.gameActive) {
+                    Object.assign(this.state.game, battleState);
+                }
             } else {
                 this.migrateOldData();
             }
+            
             this.cache.clear();
             return true;
-        } catch {
+        } catch (error) {
             this.state = { ...this.defaultState };
             return false;
         }
@@ -95,12 +103,29 @@ class StateManager {
     async save(force = false) {
         try {
             if (!force && !this.hasChanges()) return true;
+            
             this.state.meta.lastSaved = new Date().toISOString();
+            
             this.saveToStorage('appState', this.state);
             this.saveToStorage('playerData', this.state.player);
             this.saveToStorage('gameState', this.state.game);
+            
+            if (this.state.game.gameActive) {
+                this.saveToStorage('battleState', {
+                    currentEnemy: this.state.game.currentEnemy,
+                    enemyStats: this.state.game.enemyStats,
+                    playerStats: this.state.game.playerStats,
+                    turnNumber: this.state.game.turnNumber,
+                    gameActive: this.state.game.gameActive,
+                    battleLogs: this.state.game.battleLogs,
+                    gameStartTime: this.state.game.gameStartTime
+                });
+            } else {
+                localStorage.removeItem('battleState');
+            }
+            
             return true;
-        } catch {
+        } catch (error) {
             return false;
         }
     }
@@ -147,32 +172,66 @@ class StateManager {
     startGame(enemyType) {
         const enemyStats = this.getEnemyStats(enemyType);
         if (!enemyStats) return false;
+        
+        const existingDefeatedEnemies = this.state.game.defeatedEnemies || [];
+        
         this.state.game = {
-            ...this.defaultState.game,
+            ...this.state.game,
             currentEnemy: enemyType,
             enemyStats: { ...enemyStats },
+            playerStats: {
+                hp: 200,
+                maxHp: 200,
+                damage: 25,
+                critChance: 0.15,
+                critMultiplier: 1.5,
+                attackZones: [],
+                defenseZones: []
+            },
+            turnNumber: 1,
             gameActive: true,
             gameStartTime: new Date().toISOString(),
-            battleLogs: [`Game started against ${enemyStats.name}`]
+            battleLogs: [
+                {
+                    message: `Game started against ${enemyStats.name}`,
+                    timestamp: new Date().toISOString(),
+                    turn: 1
+                }
+            ],
+            defeatedEnemies: existingDefeatedEnemies
         };
-        return this.save();
+        
+        return this.save(true);
     }
 
     updateGameState(updates) {
         Object.assign(this.state.game, updates);
-        return this.save();
+        
+        if (updates.playerStats) {
+            this.state.game.playerStats = { ...this.state.game.playerStats, ...updates.playerStats };
+        }
+        
+        if (updates.enemyStats) {
+            this.state.game.enemyStats = { ...this.state.game.enemyStats, ...updates.enemyStats };
+        }
+        
+        return this.save(true);
     }
 
     addBattleLog(message) {
-        this.state.game.battleLogs.push({
+        const logEntry = {
             message,
             timestamp: new Date().toISOString(),
             turn: this.state.game.turnNumber
-        });
+        };
+        
+        this.state.game.battleLogs.push(logEntry);
+        
         if (this.state.game.battleLogs.length > 100) {
             this.state.game.battleLogs = this.state.game.battleLogs.slice(-50);
         }
-        return this.save();
+        
+        return this.save(true);
     }
 
     endGame(playerWon, stats = {}) {
@@ -180,6 +239,11 @@ class StateManager {
         this.state.game.gameResult = playerWon ? 'victory' : 'defeat';
         this.state.game.gameEndTime = new Date().toISOString();
         this.state.game.finalStats = stats;
+        
+        if (playerWon && this.state.game.currentEnemy) {
+            this.saveDefeatedEnemy(this.state.game.currentEnemy);
+        }
+        
         this.addBattleLog(`Game ended: ${playerWon ? 'Victory!' : 'Defeat!'}`);
         return this.save();
     }
@@ -331,6 +395,41 @@ class StateManager {
     notifyListeners(event, data) {
         if (!this.listeners.has(event)) return;
         this.listeners.get(event).forEach(fn => fn(data));
+    }
+
+    saveDefeatedEnemy(enemyKey) {
+        if (!this.state.game.defeatedEnemies) {
+            this.state.game.defeatedEnemies = [];
+        }
+        
+        if (!this.state.game.defeatedEnemies.includes(enemyKey)) {
+            this.state.game.defeatedEnemies.push(enemyKey);
+            this.addBattleLog(`${this.getEnemyStats(enemyKey).name} has been permanently defeated!`);
+            
+            let defeatedEnemies = JSON.parse(localStorage.getItem('defeatedEnemies') || '[]');
+            if (!defeatedEnemies.includes(enemyKey)) {
+                defeatedEnemies.push(enemyKey);
+                localStorage.setItem('defeatedEnemies', JSON.stringify(defeatedEnemies));
+            }
+            
+            this.save();
+            return true;
+        }
+        return false;
+    }
+
+    getDefeatedEnemies() {
+        const stateDefeated = this.state.game.defeatedEnemies || [];
+        const localDefeated = JSON.parse(localStorage.getItem('defeatedEnemies') || '[]');
+        const allDefeated = [...new Set([...stateDefeated, ...localDefeated])];
+        
+        this.state.game.defeatedEnemies = allDefeated;
+        
+        return allDefeated;
+    }
+
+    isEnemyDefeated(enemyKey) {
+        return this.getDefeatedEnemies().includes(enemyKey);
     }
 }
 
