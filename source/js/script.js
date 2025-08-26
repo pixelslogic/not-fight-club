@@ -1,7 +1,6 @@
 import '../scss/styles.scss';
 import './global/page.js';
 import './global/music.js';
-import './global/nickname.js';
 import './main/main-carousel.js';
 import './main/main-swiper.js';
 import './auth/auth.js';

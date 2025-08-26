@@ -183,6 +183,31 @@ if (isFightPage()) {
         }
     }
 
+    function handleHomeNavigation() {
+        if (window.StateManager) {
+            const gameState = window.StateManager.getGameState();
+            if (gameState.gameActive) {
+                window.StateManager.endGame(false, {});
+            }
+            const defeatedEnemies = window.StateManager.getDefeatedEnemies();
+            window.StateManager.reset('game');
+            if (defeatedEnemies && defeatedEnemies.length > 0) {
+                window.StateManager.setState('game.defeatedEnemies', defeatedEnemies);
+            }
+        }
+        
+        window.gameState = null;
+        
+        localStorage.removeItem('battleState');
+        
+        returnToOpponentSelection();
+        
+        const battleLogContent = document.getElementById('battleLogContent');
+        if (battleLogContent) {
+            battleLogContent.innerHTML = '<div class="logs__turn">GAME START</div><div class="logs__action logs__action--waiting">Choose your opponent to begin the battle...</div>';
+        }
+    }
+
     function returnToOpponentSelection() {
         const opponentSelector = document.getElementById('opponentSelector');
         const battleArena = document.getElementById('battleArena');
@@ -223,6 +248,22 @@ if (isFightPage()) {
             gameState.player.defenseZones = [];
         }
         
+        const gameState = getGameState();
+        const battleState = {
+            gameActive: true,
+            currentEnemy: enemyKey,
+            enemyStats: {...window.enemies[enemyKey]},
+            playerStats: {...gameState.player},
+            turnNumber: 1,
+            battleLogs: ['Battle started against ' + window.enemies[enemyKey].name + '!'],
+            gameStartTime: new Date().toISOString()
+        };
+        
+        try {
+            localStorage.setItem('battleState', JSON.stringify(battleState));
+        } catch (error) {
+        }
+        
         const opponentSelector = document.getElementById('opponentSelector');
         const battleArena = document.getElementById('battleArena');
         const battleLogs = document.getElementById('battleLogs');
@@ -235,7 +276,7 @@ if (isFightPage()) {
         addLogEntry('Battle started against ' + window.enemies[enemyKey].name + '!');
         
         const playerConfig = getPlayerConfig();
-        addLogEntry(`Your battle tactics: ${playerConfig.attackZones} attack zone${playerConfig.attackZones > 1 ? 's' : ''}, ${playerConfig.defenseZones} defense zone${playerConfig.defenseZones > 1 ? 's' : ''}`);
+        addLogEntry('Your battle tactics: ' + playerConfig.attackZones + ' attack zone' + (playerConfig.attackZones > 1 ? 's' : '') + ', ' + playerConfig.defenseZones + ' defense zone' + (playerConfig.defenseZones > 1 ? 's' : ''));
         
         const roundInfo = document.getElementById('roundInfo');
         if (roundInfo) {
@@ -245,6 +286,12 @@ if (isFightPage()) {
         
         if (window.CharacterDisplay && window.CharacterDisplay.updateEnemy) {
             window.CharacterDisplay.updateEnemy(enemyKey);
+        }
+        
+        if (window.nicknameManager) {
+            setTimeout(() => {
+                window.nicknameManager.forceUpdate();
+            }, 500);
         }
     }
 
@@ -292,9 +339,25 @@ if (isFightPage()) {
         
         if (window.StateManager) {
             window.StateManager.updateGameState({
+                gameActive: gameState.gameActive,
+                currentEnemy: gameState.currentEnemy,
+                turnNumber: gameState.turnNumber,
                 playerStats: gameState.player,
                 enemyStats: gameState.enemy
             });
+        }
+        
+        try {
+            const existingBattleState = localStorage.getItem('battleState');
+            if (existingBattleState) {
+                const battleState = JSON.parse(existingBattleState);
+                battleState.playerStats = {...gameState.player};
+                battleState.enemyStats = {...gameState.enemy};
+                battleState.gameActive = gameState.gameActive;
+                battleState.turnNumber = gameState.turnNumber;
+                localStorage.setItem('battleState', JSON.stringify(battleState));
+            }
+        } catch (error) {
         }
         
         updateSelectionStatus();
@@ -311,11 +374,21 @@ if (isFightPage()) {
         const enemyAttackZones = getRandomZones(gameState.enemy.attackCount);
         const enemyDefenseZones = getRandomZones(gameState.enemy.defenseCount);
         
+        let playerName = 'Player';
+        if (window.nicknameManager) {
+            const nickname = window.nicknameManager.getCurrentNickname();
+            if (nickname) {
+                playerName = nickname;
+            }
+        }
+        
+        const enemyName = gameState.enemy.name || 'Enemy';
+
         addLogEntry('--- TURN ' + gameState.turnNumber + ' ---');
-        addLogEntry('Player attacks: ' + playerAttackZones.map(z => z.toUpperCase()).join(', '));
-        addLogEntry('Player defends: ' + playerDefenseZones.map(z => z.toUpperCase()).join(', '));
-        addLogEntry('Enemy attacks: ' + enemyAttackZones.map(z => z.toUpperCase()).join(', '));
-        addLogEntry('Enemy defends: ' + enemyDefenseZones.map(z => z.toUpperCase()).join(', '));
+        addLogEntry(playerName + ' attacks: ' + playerAttackZones.map(z => z.toUpperCase()).join(', '));
+        addLogEntry(playerName + ' defends: ' + playerDefenseZones.map(z => z.toUpperCase()).join(', '));
+        addLogEntry(enemyName + ' attacks: ' + enemyAttackZones.map(z => z.toUpperCase()).join(', '));
+        addLogEntry(enemyName + ' defends: ' + enemyDefenseZones.map(z => z.toUpperCase()).join(', '));
         
         let playerDamage = 0;
         let enemyDamage = 0;
@@ -463,7 +536,7 @@ if (isFightPage()) {
         const status = document.getElementById('selectionStatus');
         
         if (status) {
-            status.innerHTML = `Attack: ${attackCount}/${playerConfig.attackZones}<br>Defense: ${defenseCount}/${playerConfig.defenseZones}`;
+            status.innerHTML = 'Attack: ' + attackCount + '/' + playerConfig.attackZones + '<br>Defense: ' + defenseCount + '/' + playerConfig.defenseZones;
         }
         
         if (button) {
@@ -509,6 +582,41 @@ if (isFightPage()) {
         updateSelectionStatus();
     }
 
+    function applyLogColorFormatting(message) {
+        let coloredMessage = message;
+        
+        let playerName = 'PLAYER';
+        if (window.nicknameManager) {
+            const nickname = window.nicknameManager.getCurrentNickname();
+            if (nickname) {
+                playerName = nickname;
+            }
+        }
+        
+        coloredMessage = coloredMessage.replace(/PLAYER/g, '<span class="log-player">' + playerName + '</span>');
+        
+        const bodyParts = ['HEAD', 'NECK', 'BODY', 'BELLY', 'LEGS'];
+        bodyParts.forEach(function(part) {
+            const regex = new RegExp('\\b' + part + '\\b', 'g');
+            coloredMessage = coloredMessage.replace(regex, '<span class="log-bodypart">' + part + '</span>');
+        });
+        
+        const enemyNames = ['Worker', 'Soldier', 'Manager'];
+        enemyNames.forEach(function(enemy) {
+            const regex = new RegExp('\\b' + enemy + '\\b', 'g');
+            coloredMessage = coloredMessage.replace(regex, '<span class="log-enemy">' + enemy + '</span>');
+        });
+        
+        coloredMessage = coloredMessage.replace(/(\d+) damage/g, '<span class="log-damage">$1 damage</span>');
+        
+        coloredMessage = coloredMessage.replace(/CRITICAL HIT/g, '<span class="log-critical">CRITICAL HIT</span>');
+        coloredMessage = coloredMessage.replace(/BLOCKED/g, '<span class="log-blocked">BLOCKED</span>');
+        coloredMessage = coloredMessage.replace(/VICTORY!/g, '<span class="log-victory">VICTORY!</span>');
+        coloredMessage = coloredMessage.replace(/DEFEAT!/g, '<span class="log-defeat">DEFEAT!</span>');
+        
+        return coloredMessage;
+    }
+
     function addLogEntry(message) {
         if (window.StateManager) {
             window.StateManager.addBattleLog(message);
@@ -518,12 +626,52 @@ if (isFightPage()) {
         if (!logContent) return;
         
         const gameState = getGameState();
+        
+        let playerName = 'PLAYER';
+        if (window.nicknameManager) {
+            const nickname = window.nicknameManager.getCurrentNickname();
+            if (nickname) {
+                playerName = nickname;
+            }
+        }
+        
+        let coloredMessage = message;
+        
+        coloredMessage = coloredMessage.replace(/PLAYER/g, '<span class="log-player">' + playerName + '</span>');
+        
+        const bodyParts = ['HEAD', 'NECK', 'BODY', 'BELLY', 'LEGS'];
+        bodyParts.forEach(function(part) {
+            const regex = new RegExp('\\b' + part + '\\b', 'g');
+            coloredMessage = coloredMessage.replace(regex, '<span class="log-bodypart">' + part + '</span>');
+        });
+        
+        const enemyNames = ['Worker', 'Soldier', 'Manager'];
+        enemyNames.forEach(function(enemy) {
+            const regex = new RegExp('\\b' + enemy + '\\b', 'g');
+            coloredMessage = coloredMessage.replace(regex, '<span class="log-enemy">' + enemy + '</span>');
+        });
+        
+        coloredMessage = coloredMessage.replace(/(\d+) damage/g, '<span class="log-damage">$1 damage</span>');
+        coloredMessage = coloredMessage.replace(/CRITICAL HIT/g, '<span class="log-critical">CRITICAL HIT</span>');
+        coloredMessage = coloredMessage.replace(/BLOCKED/g, '<span class="log-blocked">BLOCKED</span>');
+        coloredMessage = coloredMessage.replace(/VICTORY!/g, '<span class="log-victory">VICTORY!</span>');
+        coloredMessage = coloredMessage.replace(/DEFEAT!/g, '<span class="log-defeat">DEFEAT!</span>');
+        
         const newLogBlock = document.createElement('div');
         newLogBlock.className = 'logs';
-        newLogBlock.innerHTML = '<div class="logs__turn">TURN ' + gameState.turnNumber + '</div><div class="logs__action">' + message + '</div>';
+        newLogBlock.innerHTML = '<div class="logs__turn">TURN ' + gameState.turnNumber + '</div><div class="logs__action">' + coloredMessage + '</div>';
         logContent.appendChild(newLogBlock);
         
+        setTimeout(function() {
+            logContent.scrollTop = logContent.scrollHeight;
+        }, 50);
         logContent.scrollTop = logContent.scrollHeight;
+        requestAnimationFrame(function() {
+            logContent.scrollTo({
+                top: logContent.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
     }
 
     function showGameOverModal(playerWon) {
@@ -571,8 +719,14 @@ if (isFightPage()) {
 
     function resetGame() {
         if (window.StateManager) {
+            const defeatedEnemies = window.StateManager.getDefeatedEnemies();
             window.StateManager.reset('game');
+            if (defeatedEnemies && defeatedEnemies.length > 0) {
+                window.StateManager.setState('game.defeatedEnemies', defeatedEnemies);
+            }
         }
+        
+        localStorage.removeItem('battleState');
         
         window.gameState = {
             player: {
@@ -620,23 +774,69 @@ if (isFightPage()) {
         }
         
         updateOpponentCards();
-        
-        setTimeout(() => {
-            if (window.fightSystemManager) {
-                window.fightSystemManager.removeAllNicknames();
-            }
-        }, 100);
     }
 
     function restoreGameState() {
         if (!window.StateManager) {
-            return;
+            return false;
+        }
+        
+        const shouldReset = sessionStorage.getItem('resetGameState');
+        const referrer = document.referrer;
+        const currentUrl = window.location.href;
+        const navType = performance.navigation ? performance.navigation.type : null;
+        const perfEntries = performance.getEntriesByType('navigation');
+        const isModernRefresh = perfEntries.length > 0 && perfEntries[0].type === 'reload';
+        
+        if (shouldReset === 'true') {
+            sessionStorage.removeItem('resetGameState');
+            handleHomeNavigation();
+            return false;
         }
         
         try {
             const savedGameState = window.StateManager.getGameState();
             
-            if (savedGameState.gameActive && savedGameState.currentEnemy && savedGameState.enemyStats) {
+            if (!savedGameState.gameActive) {
+                const battleState = localStorage.getItem('battleState');
+                if (battleState) {
+                    try {
+                        const parsed = JSON.parse(battleState);
+                        
+                        if (parsed.gameActive && parsed.currentEnemy && parsed.enemyStats) {
+                            window.gameState = {
+                                player: parsed.playerStats || {hp: 200, maxHp: 200, damage: 25, critChance: 0.15, critMultiplier: 1.5, attackZones: [], defenseZones: []},
+                                enemy: parsed.enemyStats,
+                                currentEnemy: parsed.currentEnemy,
+                                turnNumber: parsed.turnNumber || 1,
+                                gameActive: true,
+                                battleLogs: parsed.battleLogs || []
+                            };
+                            
+                            const opponentSelector = document.getElementById('opponentSelector');
+                            const battleArena = document.getElementById('battleArena');
+                            const battleLogs = document.getElementById('battleLogs');
+                            
+                            if (opponentSelector) opponentSelector.style.display = 'none';
+                            if (battleArena) battleArena.classList.add('battle-arena--active');
+                            if (battleLogs) battleLogs.classList.add('battle-logs--active');
+                            
+                            updateUI();
+                            
+                            return true;
+                        }
+                    } catch (e) {
+                    }
+                }
+            }
+            
+            if (savedGameState.gameActive && 
+                savedGameState.currentEnemy && 
+                savedGameState.enemyStats &&
+                savedGameState.playerStats &&
+                savedGameState.playerStats.hp > 0 && 
+                savedGameState.enemyStats.hp > 0) {
+                
                 const opponentSelector = document.getElementById('opponentSelector');
                 const battleArena = document.getElementById('battleArena');
                 const battleLogs = document.getElementById('battleLogs');
@@ -646,15 +846,7 @@ if (isFightPage()) {
                 if (battleLogs) battleLogs.classList.add('battle-logs--active');
                 
                 window.gameState = {
-                    player: savedGameState.playerStats || {
-                        hp: 200,
-                        maxHp: 200,
-                        damage: 25,
-                        critChance: 0.15,
-                        critMultiplier: 1.5,
-                        attackZones: [],
-                        defenseZones: []
-                    },
+                    player: savedGameState.playerStats,
                     enemy: savedGameState.enemyStats,
                     currentEnemy: savedGameState.currentEnemy,
                     turnNumber: savedGameState.turnNumber || 1,
@@ -669,19 +861,14 @@ if (isFightPage()) {
                     if (logContent) {
                         logContent.innerHTML = '';
                         savedGameState.battleLogs.forEach(log => {
+                            let message = typeof log === 'string' ? log : (log.message || 'Unknown action');
+                            const turn = typeof log === 'string' ? 'BATTLE' : (log.turn ? 'TURN ' + log.turn : 'BATTLE');
+                            
+                            message = applyLogColorFormatting(message);
+                            
                             const logBlock = document.createElement('div');
                             logBlock.className = 'logs';
-                            
-                            let message, turn;
-                            if (typeof log === 'string') {
-                                message = log;
-                                turn = 'BATTLE';
-                            } else {
-                                message = log.message || 'Unknown action';
-                                turn = log.turn ? `TURN ${log.turn}` : 'BATTLE';
-                            }
-                            
-                            logBlock.innerHTML = `<div class="logs__turn">${turn}</div><div class="logs__action">${message}</div>`;
+                            logBlock.innerHTML = '<div class="logs__turn">' + turn + '</div><div class="logs__action">' + message + '</div>';
                             logContent.appendChild(logBlock);
                         });
                         logContent.scrollTop = logContent.scrollHeight;
@@ -690,7 +877,7 @@ if (isFightPage()) {
                 
                 const roundInfo = document.getElementById('roundInfo');
                 if (roundInfo && savedGameState.enemyStats) {
-                    roundInfo.textContent = `Round ${savedGameState.turnNumber || 1} | Fighting ${savedGameState.enemyStats.name}`;
+                    roundInfo.textContent = 'Round ' + (savedGameState.turnNumber || 1) + ' | Fighting ' + savedGameState.enemyStats.name;
                 }
                 
                 if (window.CharacterDisplay && window.CharacterDisplay.updateEnemy) {
@@ -707,6 +894,20 @@ if (isFightPage()) {
             return false;
         }
     }
+
+    window.addEventListener('pageshow', function(event) {
+        if (isFightPage()) {
+            const referrer = document.referrer;
+            if (referrer && (referrer.includes('index.html') || referrer.endsWith('/'))) {
+                setTimeout(function() {
+                    handleHomeNavigation();
+                    if (window.nicknameManager) {
+                        window.nicknameManager.forceUpdate();
+                    }
+                }, 100);
+            }
+        }
+    });
 
     function initFightSystem() {
         updateUI();
@@ -778,7 +979,28 @@ if (isFightPage()) {
         attemptRestore();
         
         window.gameSystemInitialized = true;
+        
+        if (window.nicknameManager) {
+            setTimeout(() => {
+                window.nicknameManager.forceUpdate();
+            }, 1000);
+        }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const homeLink = document.querySelector('a[href="index.html"]');
+        if (homeLink) {
+            homeLink.addEventListener('click', function() {
+                if (window.StateManager) {
+                    const gameState = window.StateManager.getGameState();
+                    if (gameState.gameActive) {
+                        window.StateManager.endGame(false, {});
+                    }
+                }
+                localStorage.removeItem('battleState');
+            });
+        }
+    });
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initFightSystem);
@@ -799,6 +1021,7 @@ if (isFightPage()) {
         getDefeatedEnemies: getDefeatedEnemies,
         isEnemyDefeated: isEnemyDefeated,
         updateOpponentCards: updateOpponentCards,
-        getPlayerConfig: getPlayerConfig
+        getPlayerConfig: getPlayerConfig,
+        handleHomeNavigation: handleHomeNavigation
     };
 }

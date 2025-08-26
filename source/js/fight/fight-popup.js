@@ -1,5 +1,112 @@
 import { getPlayerData } from '../player/player-data.js';
 
+class NicknameManager {
+    constructor() {
+        this.currentNickname = '';
+        this.initialized = false;
+    }
+
+    getCurrentNickname() {
+        let nickname = localStorage.getItem('username');
+        
+        if (!nickname && window.StateManager) {
+            const player = window.StateManager.getPlayer();
+            nickname = player?.username;
+        }
+        
+        return nickname && nickname !== 'Player' ? nickname : null;
+    }
+
+    setNickname(nickname) {
+        if (!nickname || nickname.trim().length < 2) return false;
+        
+        const trimmed = nickname.trim();
+        
+        localStorage.setItem('username', trimmed);
+        
+        if (window.StateManager) {
+            window.StateManager.setPlayer({ username: trimmed });
+        }
+        
+        this.currentNickname = trimmed;
+        this.updateAllDisplays();
+        
+        return true;
+    }
+
+    updateAllDisplays() {
+        const nickname = this.getCurrentNickname();
+        if (!nickname) return;
+
+        this.updateProfile(nickname);
+        this.updateBattleNickname(nickname);
+    }
+
+    updateProfile(nickname) {
+        const profileName = document.getElementById('profileName');
+        if (profileName) {
+            profileName.textContent = nickname;
+        }
+    }
+
+    updateBattleNickname(nickname) {
+        const playerNameElement = document.querySelector('.fighter-section__name--player');
+        if (!playerNameElement) {
+            setTimeout(() => this.updateBattleNickname(nickname), 500);
+            return;
+        }
+
+        const existingNickname = playerNameElement.parentElement.querySelector('.battle-nickname');
+        if (existingNickname) {
+            existingNickname.remove();
+        }
+
+        const nicknameElement = document.createElement('div');
+        nicknameElement.className = 'battle-nickname';
+        nicknameElement.textContent = nickname;
+        nicknameElement.style.cssText = `
+            color: #087E8B;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: inherit;
+        `;
+
+        playerNameElement.parentElement.insertBefore(nicknameElement, playerNameElement);
+    }
+
+    forceUpdate() {
+        const nickname = this.getCurrentNickname();
+        if (nickname) {
+            this.currentNickname = nickname;
+            this.updateAllDisplays();
+        }
+    }
+
+    init() {
+        if (this.initialized) return;
+
+        this.forceUpdate();
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'username') {
+                this.forceUpdate();
+            }
+        });
+
+        setInterval(() => {
+            const currentNickname = this.getCurrentNickname();
+            if (currentNickname && currentNickname !== this.currentNickname) {
+                this.currentNickname = currentNickname;
+                this.updateAllDisplays();
+            }
+        }, 1000);
+
+        this.initialized = true;
+    }
+}
+
 class PopupManager {
   constructor() {
     this.activePopup = null;
@@ -225,7 +332,6 @@ class ProfileManager {
     this.loadProfile();
     this.loadGameHistory();
     this.updateAllDisplays();
-    this.removeExistingNicknames();
   }
 
   setupButtons() {
@@ -345,26 +451,24 @@ class ProfileManager {
   saveNickname(newName) {
     if (!newName.trim()) return;
     
-    if (window.nicknameDisplay) {
-      const success = window.nicknameDisplay.changeNickname(newName);
+    const trimmed = newName.trim();
+    
+    if (window.nicknameManager) {
+      const success = window.nicknameManager.setNickname(trimmed);
       if (success) {
+        this.playerName = trimmed;
         this.showNotification('Nickname updated!');
       }
     } else {
-      this.playerName = newName.trim();
-      localStorage.setItem('username', this.playerName);
-      this.updateProfileDisplay();
-      this.updateAvatarDisplay();
-      this.removeExistingNicknames();
-      this.updateGameHistoryDisplay();
-      
+      localStorage.setItem('username', trimmed);
+      this.playerName = trimmed;
+      this.updateAllDisplays();
       this.showNotification('Nickname updated!');
     }
   }
 
   updateAllDisplays() {
     this.updateProfileDisplay();
-    this.removeExistingNicknames();
     this.updateAvatarDisplay();
     this.updateGameHistoryDisplay();
   }
@@ -381,19 +485,6 @@ class ProfileManager {
       const selectedCharacter = localStorage.getItem('selectedCharacter') || '456';
       numberEl.textContent = `Player ${selectedCharacter}`;
     }
-  }
-
-  removeExistingNicknames() {
-    const existingNicknames = document.querySelectorAll('.user-nickname, #user-nickname');
-    existingNicknames.forEach(el => {
-      el.remove();
-    });
-    
-    const navItems = document.querySelectorAll('.nav-fight__item, .header-fight__actions');
-    navItems.forEach(item => {
-      const nicknames = item.querySelectorAll('.user-nickname, #user-nickname');
-      nicknames.forEach(nick => nick.remove());
-    });
   }
 
   updateAvatarDisplay() {
@@ -500,19 +591,11 @@ class ProfileManager {
   }
 }
 
-function removeAllNicknames() {
-  const existingNicknames = document.querySelectorAll('.user-nickname, #user-nickname');
-  existingNicknames.forEach(el => {
-    el.remove();
-  });
-}
-
 function initPopupSystem() {
-  if (window.nicknameDisplay) {
-    window.nicknameDisplay.init();
+  if (!window.nicknameManager) {
+    window.nicknameManager = new NicknameManager();
+    window.nicknameManager.init();
   }
-  
-  removeAllNicknames();
   
   const popupManager = new PopupManager();
   const profileManager = new ProfileManager();
@@ -527,4 +610,4 @@ if (document.readyState === 'loading') {
   initPopupSystem();
 }
 
-export { PopupManager, ProfileManager };
+export { PopupManager, ProfileManager, NicknameManager };

@@ -1653,3 +1653,81 @@
     padding: 10px;
   }
 }
+
+.log-player {
+  color: $squid-teal;
+  font-weight: 700;
+}
+
+.log-bodypart {
+  color: $squid-yellow;
+  font-weight: 700;
+}
+
+.log-enemy {
+  color: $pink-icons;
+  font-weight: 700;
+}
+
+.log-damage {
+  color: $squid-red;
+  font-weight: 700;
+}
+
+.log-critical {
+  color: $attack-color;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+  animation: criticalFlash 0.3s ease-in-out;
+}
+
+.log-blocked {
+  color: $aside-gray;
+  font-weight: 700;
+}
+
+.log-victory {
+  color: $defense-color;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(102, 255, 0, 0.8);
+  animation: victoryGlow 1s ease-in-out infinite alternate;
+}
+
+.log-defeat {
+  color: $enemy-dark;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(204, 0, 0, 0.5);
+}
+
+@keyframes criticalFlash {
+  0%, 100% { text-shadow: 0 0 8px rgba(255, 0, 0, 0.6); }
+  50% { text-shadow: 0 0 15px rgba(255, 0, 0, 1); }
+}
+
+@keyframes victoryGlow {
+  0% { text-shadow: 0 0 10px rgba(102, 255, 0, 0.8); }
+  100% { text-shadow: 0 0 20px rgba(102, 255, 0, 1); }
+}
+
+#battleLogContent {
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  overflow-y: auto;
+  position: relative;
+}
+
+#battleLogContent .logs:last-child {
+  margin-bottom: 8px;
+  animation: logEntryAppear 0.3s ease-in;
+}
+
+@keyframes logEntryAppear {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
