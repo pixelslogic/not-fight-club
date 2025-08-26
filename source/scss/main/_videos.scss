@@ -1,4 +1,400 @@
+@use "../global/variables" as *;
+
+.main__videos-games {
+  position: relative;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(232, 68, 129, 0.1));
+  border: 2px solid $pink;
+  border-radius: 15px;
+  box-shadow: 
+    0 0 20px rgba(232, 68, 129, 0.5),
+    inset 0 0 20px rgba(232, 68, 129, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.main__videos-games::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(232, 68, 129, 0.3);
+  border-radius: 13px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.main__videos {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.main__videos::before {
+  content: 'GAME VIDEOS';
+  position: absolute;
+  top: -18px;
+  left: 20px;
+  background: linear-gradient(90deg, $black 0%, $pink 100%);
+  color: $white;
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 5px;
+  border: 1px solid $pink;
+  z-index: 10;
+}
+
+.videos {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.videos__slide {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.videos__slide::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(232, 68, 129, 0.3);
+  border-radius: 10px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.videos__slide iframe {
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}
+
+.videos__slide iframe:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(232, 68, 129, 0.6);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 50px ;
+  height: 50px ;
+  background: linear-gradient(135deg, $black 0%, $pink 100%) ;
+  border: 2px solid $pink ;
+  border-radius: 50% ;
+  box-shadow: 
+    0 0 20px rgba(232, 68, 129, 0.8),
+    inset 0 0 15px rgba(232, 68, 129, 0.2) ;
+  backdrop-filter: blur(5px) ;
+  transition: all 0.3s ease ;
+  z-index: 15 ;
+  margin-top: 0 ;
+  opacity: 1 ;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: linear-gradient(135deg, $pink 0%, $pink 100%) ;
+  box-shadow: 
+    0 0 30px rgba(232, 68, 129, 1),
+    inset 0 0 20px rgba(255, 255, 255, 0.2) ;
+  transform: scale(1.1) ;
+  border-color: $pink-icons ;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  color: $white ;
+  font-size: 20px ;
+  font-weight: 900 ;
+  text-shadow: 0 0 15px rgba(232, 68, 129, 1) ;
+  transition: all 0.3s ease ;
+  font-family: $monserrat;
+}
+
+.swiper-button-next:hover::after,
+.swiper-button-prev:hover::after {
+  color: $black ;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8) ;
+}
+
+.swiper-button-next {
+  right: 20px ;
+  top: 50% ;
+  transform: translateY(-50%) ;
+}
+
+.swiper-button-prev {
+  left: 20px ;
+  top: 50% ;
+  transform: translateY(-50%) ;
+}
+
+.swiper-button-next.swiper-button-disabled,
+.swiper-button-prev.swiper-button-disabled {
+  opacity: 0.5 ;
+  pointer-events: auto ;
+}
+
+.videos__button-next,
+.videos__button-prev {
+  width: 50px ;
+  height: 50px ;
+  background: linear-gradient(135deg, $black 0%, $pink 100%) ;
+  border: 2px solid $pink ;
+  border-radius: 50% ;
+  box-shadow: 
+    0 0 20px rgba(232, 68, 129, 0.8),
+    inset 0 0 15px rgba(232, 68, 129, 0.2) ;
+  backdrop-filter: blur(5px) ;
+  transition: all 0.3s ease ;
+  z-index: 15 ;
+  opacity: 1 ;
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(232, 68, 129, 0.5),
+      inset 0 0 20px rgba(232, 68, 129, 0.1);
+    border-color: $pink;
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(232, 68, 129, 0.7),
+      inset 0 0 22px rgba(232, 68, 129, 0.15);
+    border-color: $pink-icons;
+  }
+}
+
+.swiper-pagination-bullet {
+  background: rgba(232, 68, 129, 0.5) ;
+  border: 1px solid $pink ;
+  opacity: 1 ;
+  transition: all 0.3s ease ;
+}
+
+.swiper-pagination-bullet-active {
+  background: $pink ;
+  box-shadow: 0 0 10px rgba(232, 68, 129, 0.8) ;
+  transform: scale(1.2) ;
+}
 
 .videos__wrapper {
   flex-grow: 1;
+}
+
+@media (max-width: 1920px) {
+  .main__videos-games {
+    width: 100%;
+    padding: 30px 0;
+  }
+
+  .main__videos-wrapper {
+    height: 100%;
+  }
+
+  .videos__slide iframe {
+    width: 560px;
+    height: 100%;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 50px ;
+    height: 50px ;
+    display: flex ;
+    align-items: center ;
+    justify-content: center ;
+  }
+  
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 20px ;
+  }
+}
+
+@media (max-width: 1600px) {
+  .main__videos-games {
+    width: 520px;
+    padding: 35px 25px;
+    border-radius: 12px;
+  }
+
+  .videos__slide iframe {
+    width: 480px;
+    height: 100%;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 45px ;
+    height: 45px ;
+  }
+  
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 18px ;
+  }
+}
+
+@media (max-width: 1440px) {
+  .main__videos-games {
+    width: 480px;
+    padding: 35px 25px;
+  }
+
+  .videos__slide iframe {
+    width: 440px;
+    height: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .main__videos-games {
+    width: 400px;
+    padding: 30px 20px;
+    border-radius: 10px;
+  }
+
+  .main__videos-wrapper {
+    height: 400px;
+  }
+
+  .videos__slide iframe {
+    width: 360px;
+    height: 100%;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 40px ;
+    height: 40px ;
+  }
+  
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 16px ;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main__videos-games {
+    width: 380px;
+    padding: 25px 18px;
+  }
+
+  .videos__slide iframe {
+    width: 340px;
+    height: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .main__videos-games {
+    width: 350px;
+    padding: 25px 15px;
+  }
+
+  .main__videos-wrapper {
+    height: 350px;
+  }
+
+  .videos__slide iframe {
+    width: 320px;
+    height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main__videos-games {
+    width: 300px;
+    padding: 20px 10px;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+
+  .main__videos-wrapper {
+    height: 280px;
+  }
+
+  .videos__slide iframe {
+    width: 280px;
+    height: 100%;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 30px ;
+    height: 30px ;
+    border-width: 1px ;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 14px ;
+  }
+  
+  .swiper-button-next {
+    right: 5px ;
+  }
+  
+  .swiper-button-prev {
+    left: 5px ;
+  }
+  
+  .main__videos::before {
+    font-size: 12px;
+    padding: 3px 10px;
+    top: -8px;
+    left: 15px;
+  }
+  
+  .main__videos {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1920px) and (orientation: landscape) and (max-height: 1080px) {
+  .main__videos-games {
+    width: 420px;
+  }
+
+  .videos__slide iframe {
+    width: 380px;
+    height: 100%;
+  }
+}
+
+.main__videos-games {
+  animation: fadeInGlow 1s ease-out;
+}
+
+@keyframes fadeInGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    box-shadow: 0 0 0 rgba(232, 68, 129, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 
+      0 0 20px rgba(232, 68, 129, 0.5),
+      inset 0 0 20px rgba(232, 68, 129, 0.1);
+  }
 }

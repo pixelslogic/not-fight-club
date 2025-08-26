@@ -96,3 +96,253 @@
     transform: rotateY(0deg);
   }
 }
+
+@media (max-width: 1920px) {
+  .main__carousel.carousel {
+    margin-top: 9%;
+    margin-left: 13%;
+    transform: rotateX(325deg) scale(1);
+
+    .carousel__spin {
+      width: 120px;
+      height: 170px;
+
+      img {
+        box-shadow: 0 0 8px v.$pink;
+        -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
+
+        &:hover {
+          box-shadow: 0 0 15px v.$pink;
+          -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0007);
+        }
+      }
+    }
+
+    .main__button-wrapper {
+      width: 400px;
+      gap: 10px;
+    }
+
+    .main__sound-text {
+      font-size: 25px;
+    }
+
+    .carousel__ground {
+      width: 240px * 3;
+      height: 240px * 3;
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .main__carousel.carousel {
+    margin-top: 8%;
+    margin-left: 18%;
+    transform: rotateX(325deg) scale(0.95);
+
+    .carousel__spin {
+      width: 115px;
+      height: 160px;
+    }
+
+    .main__button-wrapper {
+      width: 380px;
+    }
+
+    .main__sound-text {
+      font-size: 23px;
+    }
+
+    .carousel__ground {
+      width: 220px * 3;
+      height: 220px * 3;
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .main__carousel.carousel {
+    margin-top: 7%;
+    margin-left: 16%;
+    transform: rotateX(325deg) scale(0.9);
+
+    .carousel__spin {
+      width: 110px;
+      height: 155px;
+    }
+
+    .main__button-wrapper {
+      width: 360px;
+    }
+
+    .main__sound-text {
+      font-size: 22px;
+    }
+
+    .carousel__ground {
+      width: 210px * 3;
+      height: 210px * 3;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .main__carousel.carousel {
+    margin-top: 6%;
+    margin-left: 15%;
+    transform: rotateX(325deg) scale(0.85);
+
+    .carousel__spin {
+      width: 100px;
+      height: 145px;
+
+      img {
+        box-shadow: 0 0 6px v.$pink;
+        -webkit-box-reflect: below 8px linear-gradient(transparent, transparent, #0004);
+
+        &:hover {
+          box-shadow: 0 0 12px v.$pink;
+          -webkit-box-reflect: below 8px linear-gradient(transparent, transparent, #0006);
+        }
+      }
+    }
+
+    .main__button-wrapper {
+      width: 320px;
+      gap: 8px;
+    }
+
+    .main__sound-text {
+      font-size: 20px;
+    }
+
+    .carousel__ground {
+      width: 200px * 3;
+      height: 200px * 3;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .main__carousel.carousel {
+    margin-top: 5%;
+    margin-left: 12%;
+    transform: rotateX(325deg) scale(0.8);
+
+    .carousel__spin {
+      width: 95px;
+      height: 135px;
+    }
+
+    .main__button-wrapper {
+      width: 300px;
+    }
+
+    .main__sound-text {
+      font-size: 19px;
+    }
+
+    .carousel__ground {
+      width: 180px * 3;
+      height: 180px * 3;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .main__carousel.carousel {
+    margin-top: 4%;
+    margin-left: 10%;
+    transform: rotateX(325deg) scale(0.7);
+
+    .carousel__spin {
+      width: 90px;
+      height: 125px;
+    }
+
+    .main__button-wrapper {
+      width: 280px;
+      gap: 6px;
+    }
+
+    .main__sound-text {
+      font-size: 18px;
+    }
+
+    .carousel__ground {
+      width: 170px * 3;
+      height: 170px * 3;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .main__carousel.carousel {
+    margin-top: 3%;
+    margin-left: 5%;
+    transform: rotateX(325deg) scale(0.6);
+
+    .carousel__spin {
+      width: 80px;
+      height: 110px;
+
+      img {
+        box-shadow: 0 0 4px v.$pink;
+        -webkit-box-reflect: below 6px linear-gradient(transparent, transparent, #0003);
+
+        &:hover {
+          box-shadow: 0 0 8px v.$pink;
+          -webkit-box-reflect: below 6px linear-gradient(transparent, transparent, #0005);
+        }
+      }
+    }
+
+    .main__button-wrapper {
+      width: 240px;
+      gap: 5px;
+      flex-direction: column;
+    }
+
+    .main__sound-text {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .main__svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .carousel__ground {
+      width: 140px * 3;
+      height: 140px * 3;
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  @keyframes spin {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  @keyframes spinRevert {
+    from {
+      transform: rotateY(360deg);
+    }
+    to {
+      transform: rotateY(0deg);
+    }
+  }
+}
+
+@media (max-width: 1920px) and (orientation: landscape) and (max-height: 1080px) {
+  .main__carousel.carousel {
+    margin-top: 6%;
+    transform: rotateX(340deg) scale(0.7);
+  }
+}

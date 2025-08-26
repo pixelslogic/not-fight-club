@@ -1643,3 +1643,13 @@
     transform: translate(-50%, -50%) rotate(-15deg) scale(1.05);
   }
 }
+
+@media (max-width: 1920px) {
+  .battle-logs {
+    max-height: 250px;
+  }
+
+  .game-header {
+    padding: 10px;
+  }
+}
