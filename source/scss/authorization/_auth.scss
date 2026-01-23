@@ -20,11 +20,9 @@
     left: 15%;
     width: 200px;
     height: 200px;
-    // background: v.$squid-pink;
-    // clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     opacity: 0.08;
     animation: float 6s ease-in-out infinite;
-    background-image: url("../assets/img/sharp-1.png");
+    background-image: url("/assets/img/sharp-1.png");
     background-repeat: no-repeat;
   }
 
@@ -35,10 +33,9 @@
     right: 10%;
     width: 200px;
     height: 240px;
-    // background: v.$squid-yellow;
     border-radius: 50%;
     opacity: 0.08;
-    background-image: url("../assets/img/sharp-5.png");
+    background-image: url("/assets/img/sharp-5.png");
     animation: float 4s ease-in-out infinite reverse;
     background-repeat: no-repeat;
   }
@@ -61,9 +58,8 @@
     left: 25%;
     width: 200px;
     height: 240px;
-    // background: v.$squid-teal;
     opacity: 0.08;
-    background-image: url("../assets/img/sharp-3.png");
+    background-image: url("/assets/img/sharp-3.png");
     background-repeat: no-repeat;
     animation: float 8s ease-in-out infinite;
     z-index: 0;
@@ -567,69 +563,4 @@
 
 .glitch {
   animation: glitch 0.3s ease-in-out;
-}
-
-@media (max-width: 768px) {
-  .auth, .character-selection {
-    padding: 40px 25px;
-    margin: 15px;
-  }
-  
-  .auth__title, .character-selection__title {
-    font-size: 24px;
-  }
-  
-  .characters {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .character-card {
-    padding: 25px 15px;
-  }
-  
-  .input__field, .button {
-    font-size: 16px;
-    padding: 18px;
-  }
-    
-  .squid-card {
-    width: 100px;
-    height: 70px;
-
-    &__shapes {
-      gap: 6px;
-    }
-    
-    &__triangle,
-    &__circle,
-    &__square {
-      width: 12px;
-      height: 12px;
-    }
-    
-    &__number {
-      font-size: 20px;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .auth__title {
-    font-size: 20px;
-  }
-  
-  .character-card__avatar {
-    font-size: 40px;
-  }
-  
-  .squid-card {
-    width: 90px;
-    height: 60px;
-    margin-bottom: 20px;
-
-    &__number {
-      font-size: 18px;
-    }
-  }
 }

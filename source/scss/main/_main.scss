@@ -19,7 +19,50 @@
   font-style: normal;
   color: v.$white;
   text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.main__button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(232, 68, 129, 0) 0%,
+    rgba(232, 68, 129, 0.5) 50%,
+    rgba(232, 68, 129, 0) 100%
+  );
+  transform: skewX(-20deg);
+  transition: none;
+}
+
+.main__button:hover::before {
+  left: 200%; /* движение полоски */
+  transition: left 0.8s ease-in-out;
+}
+
+.main__button:hover {
+  transform: scale(1.05);
+  border-color: #e84481;
+  box-shadow: 0 0 25px #e84481, 0 0 35px rgba(232, 68, 129, 0.4);
+}
+
+.main__button:active {
+  animation: buttonPress 0.2s ease;
+}
+
+@keyframes buttonPress {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1.05); }
+}
+
 
 .main__button-wrapper {
   font-size: 32px;
@@ -97,6 +140,7 @@ audio {
   width: 1000px;
   margin: 0 auto;
   padding-top: 162px;
+  padding-left: 30px;
 }
 
 .main__videos-games {
@@ -106,12 +150,344 @@ audio {
   top: 0;
   width: 100%;
   padding: 40px 30px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.65) 25.68%, rgba(249, 247, 247, 0.10) 54%, rgba(0, 0, 0, 0.65) 84%);
-  box-shadow: -8px 0px 15px rgba(0, 0, 0, 0.4);
 }
 
 .main__videos {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 1920px) {
+  .main__content {
+    width: 1000px;
+    padding-top: 162px;
+    padding-left: 100px;
+  }
+
+  .main__text {
+    padding-top: 106px;
+    gap: 100px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 350px;
+    }
+
+    h2 {
+      font-size: 25px;
+      margin: 0 0 25px;
+    }
+
+    p {
+      font-size: 20px;
+      margin: 0 0 35px;
+    }
+  }
+
+  .main__button {
+    width: 244px;
+    height: 53px;
+    font-size: 23px;
+  }
+
+  .main__img {
+    left: 45%;
+  }
+
+  .main__img-bg {
+    width: 450px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .main__content {
+    width: 900px;
+    padding-top: 140px;
+    padding-left: 25px;
+  }
+
+  .main__text {
+    padding-top: 90px;
+    gap: 80px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 400px;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin: 0 0 23px;
+    }
+
+    p {
+      font-size: 20px;
+      margin: 0 0 32px;
+    }
+  }
+
+  .main__button {
+    width: 230px;
+    height: 50px;
+    font-size: 21px;
+  }
+
+  .main__img {
+    left: 47%;
+  }
+
+  .main__img-bg {
+    width: 420px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .main__content {
+    width: 800px;
+    padding-top: 120px;
+    padding-left: 20px;
+  }
+
+  .main__text {
+    padding-top: 80px;
+    gap: 70px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 380px;
+    }
+
+    h2 {
+      font-size: 30px;
+      margin: 0 0 22px;
+    }
+
+    p {
+      font-size: 19px;
+      margin: 0 0 30px;
+    }
+  }
+
+  .main__button {
+    width: 220px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .main__img {
+    left: 48%;
+  }
+
+  .main__img-bg {
+    width: 390px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .main__content {
+    width: 700px;
+    padding-top: 100px;
+    padding-left: 15px;
+  }
+
+  .main__text {
+    padding-top: 60px;
+    gap: 60px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 350px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin: 0 0 20px;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 0 0 28px;
+    }
+  }
+
+  .main__button {
+    width: 210px;
+    height: 45px;
+    font-size: 19px;
+  }
+
+  .main__img {
+    left: 50%;
+  }
+
+  .main__img-bg {
+    width: 350px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main__content {
+    width: 600px;
+    padding-top: 80px;
+    padding-left: 10px;
+  }
+
+  .main__text {
+    padding-top: 50px;
+    gap: 50px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 320px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin: 0 0 18px;
+    }
+
+    p {
+      font-size: 17px;
+      margin: 0 0 26px;
+    }
+  }
+
+  .main__button {
+    width: 200px;
+    height: 43px;
+    font-size: 18px;
+  }
+
+  .main__img {
+    left: 52%;
+  }
+
+  .main__img-bg {
+    width: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main__content {
+    width: 550px;
+    padding-top: 70px;
+    padding-left: 5px;
+  }
+
+  .main__text {
+    padding-top: 40px;
+    gap: 40px;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 300px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 0 0 16px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 0 0 24px;
+    }
+  }
+
+  .main__button {
+    width: 190px;
+    height: 40px;
+    font-size: 17px;
+  }
+
+  .main__img {
+    left: 55%;
+  }
+
+  .main__img-bg {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main__content {
+    width: 100%;
+    max-width: 500px;
+    padding-top: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+  }
+
+  .main__text {
+    padding-top: 30px;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .main__wrapper {
+    h1 .main__logo {
+      max-width: 280px;
+      margin: 0 auto 30px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 0 0 15px;
+    }
+
+    p {
+      font-size: 15px;
+      margin: 0 0 22px;
+    }
+  }
+
+  .main__button {
+    width: 180px;
+    height: 38px;
+    font-size: 16px;
+    margin: 0 auto;
+  }
+
+  .main__img {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .main__img-bg {
+    width: 250px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main__button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px #e84481, 0 0 30px rgba(232, 68, 129, 0.3);
+  }
+}
+
+@media (max-width: 1920px) and (orientation: landscape) and (max-height: 1080px) {
+  .main__content {
+    padding-top: 80px;
+  }
+
+  .main__text {
+    padding-top: 40px;
+    gap: 50px;
+  }
+
+  .main__img-bg {
+    width: 350px;
+  }
 }

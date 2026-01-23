@@ -1,4 +1,5 @@
-import { playHoverSound, playClickSound, playSelectionSound } from './select-music.js';
+import "../global/music";
+import { getImagePath, preloadAllCharacterImages, discoverAllCharacters } from '../global/image.js';
 
 const LOCKED_CHARACTERS = Object.freeze(['222', '333', '149', '007', '230']);
 
@@ -6,12 +7,23 @@ const isCharacterUnlocked = (characterId) => {
     return !LOCKED_CHARACTERS.includes(characterId);
 };
 
+let ALL_CHARACTER_IDS = [];
+
+function updateCharacterList() {
+    const discovered = discoverAllCharacters();
+    if (discovered.length > 0) {
+        ALL_CHARACTER_IDS = discovered;
+    } else {
+        ALL_CHARACTER_IDS = ['456', '390', '120', '388', '246', '222', '333', '149', '007', '230'];
+    }
+}
+
 const characterData = {
     456: {
         playerName: "Seong Gi-hun",
         description: "The main protagonist of the series, a bankrupt driver and gambling addict who participates in the games to pay off his debts and provide for his daughter. After winning the first games, he returns driven by a desire to stop the cruel system and protect other participants.",
-        fullBody: "../assets/img/players/456/456.png",
-        portrait: "../assets/img/players/456/456-icon.png",
+        get fullBody() { return getImagePath('456', 'fullBody'); },
+        get portrait() { return getImagePath('456', 'portrait'); },
         gradientColors: ["#0a8f91", "#f44786"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -22,8 +34,8 @@ const characterData = {
     390: {
         playerName: "Park Jung-bae",
         description: "Gi-hun's best friend who also ended up in the games due to financial problems. Their friendship is severely tested under the conditions of deadly competition.",
-        fullBody: "../assets/img/players/390/390.png",
-        portrait: "../assets/img/players/390/390-icon.png",
+        get fullBody() { return getImagePath('390', 'fullBody'); },
+        get portrait() { return getImagePath('390', 'portrait'); },
         gradientColors: ["#142852", "#0a8f91"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -34,8 +46,8 @@ const characterData = {
     120: {
         playerName: "Cho Hyun-ju",
         description: "A transgender woman who participates in the games to pay for gender transition surgery. She faces discrimination and misunderstanding from other players but shows strength of spirit and determination.",
-        fullBody: "../assets/img/players/120/120.png",
-        portrait: "../assets/img/players/120/120-icon.png",
+        get fullBody() { return getImagePath('120', 'fullBody'); },
+        get portrait() { return getImagePath('120', 'portrait'); },
         gradientColors: ["#e6d591", "#641b6b"],
         gradientDirection: "to left top",
         shadowConfig: {
@@ -46,8 +58,8 @@ const characterData = {
     388: {
         playerName: "Kang Dae-ho",
         description: "Initially presented as a friendly and sympathetic character who forms an alliance with Gi-hun and Jung-bae, bonding with them through their supposedly shared military background.",
-        fullBody: "../assets/img/players/388/388.png",
-        portrait: "../assets/img/players/388/388-icon.png",
+        get fullBody() { return getImagePath('388', 'fullBody'); },
+        get portrait() { return getImagePath('388', 'portrait'); },
         gradientColors: ["#7a943e", "#5e3839"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -58,8 +70,8 @@ const characterData = {
     246: {
         playerName: "Park Gyeong-seok",
         description: "A participant in the 37th Squid Game who joined the games to get money for his daughter's medical treatment, as she suffers from recurring blood cancer. His desperate desire to save his child drives him throughout all the trials.",
-        fullBody: "../assets/img/players/246/246.png",
-        portrait: "../assets/img/players/246/246-icon.png",
+        get fullBody() { return getImagePath('246', 'fullBody'); },
+        get portrait() { return getImagePath('246', 'portrait'); },
         gradientColors: ["#ff6b6b", "#4ecdc4"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -70,8 +82,8 @@ const characterData = {
     222: {
         playerName: "Kim Jun-hee",
         description: "🔒 This character is locked. Complete more challenges to unlock.",
-        fullBody: "../assets/img/players/222/222.png",
-        portrait: "../assets/img/players/222/222-icon.png",
+        get fullBody() { return getImagePath('222', 'fullBody'); },
+        get portrait() { return getImagePath('222', 'portrait'); },
         gradientColors: ["#8B5CF6", "#EC4899"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -82,8 +94,8 @@ const characterData = {
     333: {
         playerName: "Lee Myung-gi",
         description: "🔒 This character is locked. Complete more challenges to unlock.",
-        fullBody: "../assets/img/players/333/333.png",
-        portrait: "../assets/img/players/333/333-icon.png",
+        get fullBody() { return getImagePath('333', 'fullBody'); },
+        get portrait() { return getImagePath('333', 'portrait'); },
         gradientColors: ["#059669", "#DC2626"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -94,8 +106,8 @@ const characterData = {
     149: {
         playerName: "Jang Geum-ja",
         description: "🔒 This character is locked. Complete more challenges to unlock.",
-        fullBody: "../assets/img/players/149/149.png",
-        portrait: "../assets/img/players/149/149-icon.png",
+        get fullBody() { return getImagePath('149', 'fullBody'); },
+        get portrait() { return getImagePath('149', 'portrait'); },
         gradientColors: ["#F59E0B", "#EF4444"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -106,8 +118,8 @@ const characterData = {
     "007": {
         playerName: "Park Yong-sik",
         description: "🔒 This character is locked. Complete more challenges to unlock.",
-        fullBody: "../assets/img/players/007/007.png",
-        portrait: "../assets/img/players/007/007-icon.png",
+        get fullBody() { return getImagePath('007', 'fullBody'); },
+        get portrait() { return getImagePath('007', 'portrait'); },
         gradientColors: ["#065F46", "#BE185D"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -118,8 +130,8 @@ const characterData = {
     230: {
         playerName: "Thanos",
         description: "🔒 This character is locked. Complete more challenges to unlock.",
-        fullBody: "../assets/img/players/230/230.png",
-        portrait: "../assets/img/players/230/230-icon.png",
+        get fullBody() { return getImagePath('230', 'fullBody'); },
+        get portrait() { return getImagePath('230', 'portrait'); },
         gradientColors: ["#7C3AED", "#1E40AF"],
         gradientDirection: "to bottom right",
         shadowConfig: {
@@ -134,6 +146,7 @@ class CharacterSelector {
         this.elements = {};
         this.currentCharacterNumber = 1;
         this.characterOrder = {};
+        this.imagesPreloaded = false;
         this.initializeElements();
     }
 
@@ -147,6 +160,17 @@ class CharacterSelector {
         this.elements.background = document.getElementById("gradient");
         this.elements.characterContainer = document.querySelector('.character');
         this.elements.selectionSound = document.getElementById('selection-sound');
+    }
+
+    async preloadAllImages() {
+        if (this.imagesPreloaded) return;
+
+        try {
+            updateCharacterList();
+            await preloadAllCharacterImages(ALL_CHARACTER_IDS);
+            this.imagesPreloaded = true;
+        } catch (error) {
+        }
     }
 
     getKeyByValue(object, value) {
@@ -183,7 +207,6 @@ class CharacterSelector {
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + 0.3);
         } catch (e) {
-            // Silently fail if audio context not available
         }
     }
 
@@ -199,9 +222,10 @@ class CharacterSelector {
             }
         });
 
-        this.elements.mainCharacterImage.src = character.fullBody;
-        if (this.elements.shadowImage) this.elements.shadowImage.src = character.fullBody;
-        if (this.elements.blurImage) this.elements.blurImage.src = character.fullBody;
+        const fullBodySrc = character.fullBody;
+        this.elements.mainCharacterImage.src = fullBodySrc;
+        if (this.elements.shadowImage) this.elements.shadowImage.src = fullBodySrc;
+        if (this.elements.blurImage) this.elements.blurImage.src = fullBodySrc;
 
         if (this.elements.characterContainer) {
             this.elements.characterContainer.style.setProperty('--shadow-hue-s', `${character.shadowConfig.hueShiftS}deg`);
@@ -215,8 +239,11 @@ class CharacterSelector {
         const characterKey = this.characterOrder[this.currentCharacterNumber];
         const character = characterData[characterKey];
         if (!character || !this.elements.mainCharacterImage) return;
-
         this.generateCharacterDisplay(characterKey);
+        
+        if (window.CharacterDisplay) {
+            window.CharacterDisplay.saveSelected(characterKey);
+        }
 
         if (this.elements.characterContainer) {
             this.elements.characterContainer.setAttribute('data-character', characterKey);
@@ -336,7 +363,10 @@ class CharacterSelector {
     }
 
     async init() {
-        const characterImages = await this.waitForElements();
+        const preloadPromise = this.preloadAllImages();
+        const elementsPromise = this.waitForElements();
+
+        const [characterImages] = await Promise.all([elementsPromise, preloadPromise]);
         
         const availableCharacters = [];
         
@@ -444,21 +474,28 @@ class CharacterSelector {
 
 const characterSelector = new CharacterSelector();
 
-if (document.readyState === 'loading') {
-    document.addEventListener("DOMContentLoaded", () => {
-        characterSelector.init();
+class CharacterSelectorManager {
+    constructor() {
+        this.initialized = false;
+    }
+
+    async init() {
+        if (this.initialized) return;
+        
+        if (document.readyState === 'loading') {
+            await new Promise(resolve => {
+                document.addEventListener('DOMContentLoaded', resolve, { once: true });
+            });
+        }
+        
+        await characterSelector.init();
         characterSelector.setupKeyboardNavigation();
-    });
-} else {
-    setTimeout(() => {
-        characterSelector.init();
-        characterSelector.setupKeyboardNavigation();
-    }, 100);
+        
+        this.initialized = true;
+    }
 }
 
-setTimeout(() => {
-    characterSelector.init();
-    characterSelector.setupKeyboardNavigation();
-}, 500);
+const manager = new CharacterSelectorManager();
+manager.init();
 
 export { characterData, isCharacterUnlocked, LOCKED_CHARACTERS, characterSelector };

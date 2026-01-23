@@ -1,5 +1,23 @@
-import { playClickSound } from '../selection-hero/select-music.js';
 import { savePlayerData, generatePlayerNumber, validatePlayerData } from '../player/player-data.js';
+
+function clearGameData() {
+    localStorage.removeItem('battleState');
+    localStorage.removeItem('gameState'); 
+    localStorage.removeItem('defeatedEnemies');
+    localStorage.removeItem('gameHistory');
+    
+    if (window.StateManager) {
+        try {
+            window.StateManager.reset('game');
+        } catch (error) {}
+    }
+    
+    if (window.gameState) {
+        window.gameState = null;
+    }
+}
+
+clearGameData();
 
 const authForm = document.getElementById('authForm');
 const usernameInput = document.getElementById('usernameInput');
@@ -21,8 +39,8 @@ if (authForm && usernameInput && loginButton) {
         if (authBlock) {
             authBlock.classList.add('glitch');
         }
-        if (typeof playClickSound === 'function') {
-            playClickSound();
+        if (window.playClickSound) {
+            window.playClickSound();
         }
         setTimeout(() => {
             usernameInput.classList.remove('input__field--error');
@@ -43,6 +61,10 @@ if (authForm && usernameInput && loginButton) {
             return;
         }
 
+        clearGameData();
+        
+        sessionStorage.setItem('resetGameState', 'true');
+
         const playerNumber = generatePlayerNumber();
         try {
             const playerData = {
@@ -56,8 +78,8 @@ if (authForm && usernameInput && loginButton) {
                 showValidationError();
                 return;
             }
-            if (typeof playClickSound === 'function') {
-                playClickSound();
+            if (window.playClickSound) {
+                window.playClickSound();
             }
             setTimeout(() => {
                 window.location.href = 'selection_hero.html';
@@ -77,4 +99,29 @@ if (authForm && usernameInput && loginButton) {
             }
         }
     });
+}
+
+window.addEventListener('beforeunload', function() {
+    const currentPage = window.location.pathname;
+    
+    const isRefresh = performance.navigation && performance.navigation.type === 1;
+    const perfEntries = performance.getEntriesByType('navigation');
+    const isModernRefresh = perfEntries.length > 0 && perfEntries[0].type === 'reload';
+    
+    if (isRefresh || isModernRefresh) {
+        return;
+    }
+    
+    if (currentPage.includes('fight') || currentPage.includes('selection')) {
+        clearGameData();
+    }
+});
+
+if (window.location.pathname.includes('index') || window.location.pathname === '/') {
+    const referrer = document.referrer;
+    const isFromFight = referrer && referrer.includes('fight');
+    
+    if (isFromFight) {
+        clearGameData();
+    }
 }
